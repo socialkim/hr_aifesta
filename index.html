@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오늘 해보는 AI 실습 | 도서관 AI 특강</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<style>
+:root{
+  --accent:#2964FF;--accent-soft:#EAF0FF;--ink:#111827;--muted:#6B7280;--line:#E5E7EB;
+  --bg:#F7F7F5;--card:#FFFFFF;--ok:#16A34A;
+  --font:'Pretendard Variable',-apple-system,system-ui,sans-serif;--r:16px;--r-sm:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;word-break:keep-all}
+a{color:var(--accent)}
+h1,h3,p,li,button,div{font-size:16px}
+
+.hero{background:var(--ink);color:var(--card);padding:36px 20px 28px}
+.hero .wrap{max-width:760px;margin:0 auto}
+.hero .tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--accent-soft);margin-bottom:12px}
+.hero h1{font-size:30px;font-weight:800;line-height:1.2;letter-spacing:-.02em;margin-bottom:12px}
+.hero p{color:var(--card);opacity:.72;margin-bottom:24px}
+.progress{display:flex;align-items:center;gap:16px}
+.progress .num{font-size:19px;font-weight:800;line-height:1}
+.progress .num small{font-size:14px;font-weight:600;opacity:.6;margin-left:4px}
+.bar{flex:1;height:10px;background:var(--muted);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .35s}
+
+.tabs{position:sticky;top:0;z-index:50;background:var(--card);border-bottom:1px solid var(--line)}
+.tabs .wrap{max-width:760px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none}
+.tabs .wrap::-webkit-scrollbar{display:none}
+.tab{flex:1 0 auto;padding:16px;font-weight:600;color:var(--muted);background:none;border:0;border-bottom:3px solid transparent;font-family:var(--font);cursor:pointer;white-space:nowrap}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+
+.main{max-width:760px;margin:0 auto;padding:24px 16px 96px}
+.panel{display:none}.panel.on{display:block}
+.lead{margin:0 0 24px}
+.card{background:var(--card);border-radius:var(--r);padding:20px 16px;margin-bottom:16px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.card .head{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.step{flex:0 0 36px;height:36px;border-radius:10px;background:var(--accent-soft);color:var(--accent);font-weight:800;display:flex;align-items:center;justify-content:center}
+.card h3,.rule h3,.acc>button{font-size:19px;font-weight:700;line-height:1.35}
+.card h3{flex:1}
+.card .app{font-size:12px;color:var(--muted);margin-top:4px}
+.say{background:var(--accent-soft);border-radius:var(--r-sm);padding:16px;cursor:pointer;margin-bottom:12px}
+.say:active{opacity:.85}
+.say .lbl,.section-h{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.04em;margin-bottom:4px}
+.say .txt{font-size:19px;font-weight:600;line-height:1.5;white-space:pre-wrap}
+.say .hint{font-size:14px;color:var(--muted);margin-top:8px}
+.tip,.acc .body p,.acc .body li,.rule p,.warnbox li,.foot{font-size:14px}
+.tip b,.acc .body p b,.rule p b{color:var(--accent)}
+.done{margin-top:12px;width:100%;padding:12px;border-radius:var(--r-sm);border:1.5px solid var(--line);background:var(--card);font-family:var(--font);font-weight:600;color:var(--muted);cursor:pointer}
+.done.on{background:var(--accent-soft);border-color:var(--ok);color:var(--ok)}
+.acc{background:var(--card);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+.acc>button{width:100%;text-align:left;padding:16px;background:none;border:0;font-family:var(--font);color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:pointer}
+.acc>button span{font-size:12px;font-weight:600;color:var(--muted);flex-shrink:0}
+.acc .body{display:none;padding:0 16px 16px}
+.acc.open .body{display:block}
+.acc .body .say{margin-top:12px}
+.acc .body p{margin:8px 0}
+.acc .body ul{padding-left:16px}
+.acc .body li{margin:4px 0}
+.rule{display:flex;gap:16px;background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.rule .n{flex:0 0 32px;font-size:19px;font-weight:800;color:var(--accent);line-height:1.2}
+.rule h3{margin-bottom:4px}
+.warnbox{background:var(--accent-soft);border-radius:var(--r);padding:16px;margin:24px 0 0}
+.warnbox h3{font-size:19px;font-weight:700;margin-bottom:8px}
+.warnbox ul{padding-left:16px}
+.warnbox li{margin:4px 0}
+.section-h{margin:28px 0 12px;color:var(--muted)}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.links a{font-size:14px;font-weight:600;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:8px 16px;color:var(--ink)}
+.foot{max-width:760px;margin:0 auto;padding:0 16px 32px;color:var(--muted);line-height:1.6}
+.bio{background:var(--card);border-radius:var(--r);padding:20px 16px;margin:32px auto 16px;max-width:760px}
+.bio h3{font-size:19px;font-weight:700;margin-bottom:4px}
+.bio .role{font-size:14px;color:var(--accent);font-weight:600;margin-bottom:12px}
+.bio p{font-size:14px;color:var(--ink);margin:8px 0}
+.bio .books{font-size:14px;color:var(--muted);margin:12px 0}
+.bio .ask{font-size:14px;font-weight:600;color:var(--ink);margin:16px 0 8px}
+.toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%) translateY(16px);background:var(--ink);color:var(--card);padding:12px 24px;border-radius:12px;font-weight:600;opacity:0;pointer-events:none;transition:all .3s;z-index:99;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.fs{position:fixed;right:16px;bottom:16px;display:flex;gap:8px;z-index:60}
+.fs button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);font-family:var(--font);font-weight:800;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="wrap">
+  <div class="tag">도서관 AI 특강 · 김덕진</div>
+  <h1>오늘 해보는 AI 실습 6가지</h1>
+  <p>키보드 없이, 스마트폰 마이크 버튼만 누르면 됩니다. 파란 상자를 누르면 문장이 복사돼요. 완벽하지 않아도 해보는게 시작입니다!</p>
+  <div class="progress">
+    <div class="num"><span id="doneN">0</span><small>/ 6 완료</small></div>
+    <div class="bar"><i id="barFill"></i></div>
+  </div>
+</div></header>
+
+<nav class="tabs"><div class="wrap">
+  <button class="tab on" data-t="now">1 지금 해보기</button>
+  <button class="tab" data-t="home">2 집에서 더</button>
+  <button class="tab" data-t="agent">3 심화 에이전트</button>
+  <button class="tab" data-t="mcp">4 MCP 연결</button>
+  <button class="tab" data-t="check">5 판별 요령</button>
+  <button class="tab" data-t="safe">6 안전 가이드</button>
+  <button class="tab" data-t="files">7 자료</button>
+</div></nav>
+
+<main class="main">
+
+<!-- ═══ 1 지금 해보기 ═══ -->
+<section class="panel on" id="p-now">
+  <p class="lead"><b>준비:</b> 챗GPT·제미나이·클로드 중 하나를 열고 <b>마이크(🎤) 버튼</b>을 찾으세요. 앱이 없으면 아래 무료 링크로 들어가면 됩니다. 쉬운 것부터 시작합니다.</p>
+
+  <div class="card" data-id="a1">
+    <div class="head"><div class="step">1</div><div><h3>찍고 올리고 물어보기</h3><div class="app">가장 쉬운 시작 · 타이핑 없음</div></div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">아무거나 사진 찍고 이렇게</div><div class="txt">이 사진에 뭐라고 써 있는지 큰 글씨로 정리해줘. 내가 꼭 알아야 할 것 세 가지만 먼저 말해줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="tip"><b>뭘 찍을까:</b> 약봉투 · 안내문 · 고지서 · 외국어 메뉴판 · 꽃이나 나무 · 아이 알림장. <b>사진 한 장이 곧 질문</b>이 됩니다. 찍을 게 없으면 6번 자료 탭에서 샘플 사진을 내려받으세요.</div>
+    <button class="done" onclick="dn(this)">완료 표시</button>
+  </div>
+
+  <div class="card" data-id="a2">
+    <div class="head"><div class="step">2</div><div><h3>추석 인사 그림 만들기</h3><div class="app">말로 그리고, 말로 고친다</div></div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">① 먼저 이렇게</div><div class="txt">추석 인사 카드에 쓸 그림을 그려줘. 보름달과 송편, 한복 입은 가족이 함께 있는 따뜻한 느낌으로. 그림 위에 "풍성한 한가위 되세요"라고 한글로 크게 써줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">② 마음에 안 들면 말로 고치기: 이게 핵심</div><div class="txt">달을 더 크게 하고, 색은 더 따뜻하게 바꿔줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="tip"><b>바꿔보기:</b> "수채화풍으로" · "귀여운 그림책 느낌으로" · "우리 동네 바다가 배경으로".<br><b>한글이 깨지면</b> "글자 없이 그림만 다시 그려줘"라고 하고 문구는 직접 넣으세요. 무료 계정은 하루 생성 횟수 제한이 있습니다.<br><b>완성하면</b> 가족 단톡방에 바로 보내보세요.</div>
+    <button class="done" onclick="dn(this)">완료 표시</button>
+  </div>
+
+  <div class="card" data-id="a3">
+    <div class="head"><div class="step">3</div><div><h3>역할 주기: 나만의 비서 만들기</h3><div class="app">한 문장만 바꾸면 답이 달라집니다</div></div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">이렇게 말해보세요</div><div class="txt">너는 우리 동네 모임을 도와주는 비서야. 이번 주 토요일 오전 10시 산책 모임 안내문을 써줘. 준비물이랑 모이는 곳도 넣고, 어르신도 읽기 쉽게 짧게.</div><div class="hint">누르면 복사</div></div>
+    <div class="tip"><b>포인트:</b> "너는 ~야"라고 <b>역할</b>을 주는 순간 답의 수준이 달라집니다. 학부모는 "너는 초등학교 선생님이야", 학생은 "너는 공부를 도와주는 선배야"로 바꿔보세요.</div>
+    <button class="done" onclick="dn(this)">완료 표시</button>
+  </div>
+
+  <div class="card" data-id="a4">
+    <div class="head"><div class="step">4</div><div><h3>생활 속 궁금한 것 물어보기</h3><div class="app">쉬운 말로 풀어달라고 하기</div></div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">예시: 상황을 그냥 말하면 됩니다</div><div class="txt">윗집 소음 때문에 몇 달째 힘들어. 어느 정도면 층간소음으로 인정받는지, 내가 도움을 청할 수 있는 곳이 어디인지 쉬운 말로 알려줘. 근거가 되는 규정 이름도 같이.</div><div class="hint">누르면 복사</div></div>
+    <div class="tip"><b>바꿔서 물어보기:</b> "전세 계약이 끝나가는데 더 살고 싶어" · "아이가 아르바이트비를 못 받았대" · "중고거래로 산 물건이 불량인데 환불이 되나".<br><b>중요:</b> AI 답은 <b>출발점</b>입니다. 실제 분쟁이 되면 대한법률구조공단(국번없이 132)이나 시·군청 무료 법률상담을 이용하세요.</div>
+    <button class="done" onclick="dn(this)">완료 표시</button>
+  </div>
+
+  <div class="card" data-id="a5">
+    <div class="head"><div class="step">5</div><div><h3>반대 근거 시키기</h3><div class="app">AI 답이 나온 직후에</div></div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">방금 답한 AI에게 이어서</div><div class="txt">방금 답한 내용 중에 확실하지 않은 부분을 표시해줘. 그리고 반대 의견이나 반대 근거가 있다면 그것도 말해줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="tip"><b>왜:</b> AI는 내 말에 맞춰주려는 성향이 있고, 틀려도 당당합니다. <b>"반대 근거도 말해봐"</b>는 AI를 잘 쓰는 사람의 첫 번째 버릇입니다.</div>
+    <button class="done" onclick="dn(this)">완료 표시</button>
+  </div>
+
+  <div class="card" data-id="a6">
+    <div class="head"><div class="step">6</div><div><h3>말로 만드는 미니 앱</h3><div class="app">코딩 없이 · 챗GPT 캔버스</div></div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">이렇게 말해보세요</div><div class="txt">추석 차례상 장보기 목록을 체크할 수 있는 간단한 웹페이지를 만들어줘. 품목을 직접 추가하고, 다 사면 체크해서 지울 수 있고, 남은 개수가 위에 크게 보이게. 어르신도 보기 쉽게 글씨는 크게. 캔버스로 만들어줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="tip"><b>이어서 시켜보기:</b> "예산도 입력해서 남은 돈이 보이게 해줘" · "색을 더 밝게" · "글씨를 더 크게".<br>코딩을 한 줄도 몰라도 됩니다. 원하는 걸 말하면 화면이 만들어지고, 또 말하면 고쳐집니다. 이걸 <b>바이브코딩</b>이라고 부릅니다.</div>
+    <button class="done" onclick="dn(this)">완료 표시</button>
+  </div>
+
+  <div class="section-h">앱이 없다면 (모두 무료)</div>
+  <div class="links">
+    <a href="https://chatgpt.com" target="_blank">챗GPT</a>
+    <a href="https://gemini.google.com" target="_blank">제미나이</a>
+    <a href="https://claude.ai" target="_blank">클로드</a>
+  </div>
+</section>
+
+<!-- ═══ 2 집에서 더 ═══ -->
+<section class="panel" id="p-home">
+  <p class="lead">오늘 못 한 건 여기서. <b>나에게 맞는 것 하나만</b> 열어보세요.</p>
+
+  <div class="acc">
+    <button onclick="tg(this)">부모님: 아이와 함께 쓰기 <span>5가지 · 발문</span></button>
+    <div class="body">
+      <p>핵심은 '함께'입니다. 금지가 아니라 <b>함께 정한 규칙</b>. 기술 교육이 아니라 <b>대화 교육</b>입니다.</p>
+      <ul>
+        <li><b>같이 질문하기</b>: 저녁 식탁에서 궁금한 걸 AI에게 함께 물어보기</li>
+        <li><b>팩트체크 놀이</b>: AI 답이 맞는지 같이 확인하기</li>
+        <li><b>AI 틀리게 만들기</b>: AI가 틀리는 지점을 찾는 게임</li>
+        <li><b>AI vs 나</b>: 같은 주제로 각자 써보고 비교·토론</li>
+        <li><b>먼저 생각, 그다음 AI</b>: 내 생각을 먼저 쓴 뒤 AI로 다듬기</li>
+      </ul>
+      <div class="say" onclick="cp(this)"><div class="lbl">발문 연습: 생각을 여는 질문 만들기</div><div class="txt">초등학생 아이와 같이 보고 있어. "프랑스 수도가 어디야?" 같은 정답 질문 말고, "수도는 왜 늘 나라 한가운데에 있지 않을까?"처럼 생각을 여는 질문을 우리 아이 나이에 맞게 5개 만들어줘. 답은 주지 말고 질문만.</div><div class="hint">누르면 복사</div></div>
+      <div class="say" onclick="cp(this)"><div class="lbl">숙제: 답을 대신 해주지 않게 시키기</div><div class="txt">너는 우리 아이의 공부 파트너야. 절대 답을 바로 알려주지 말고, 아이가 스스로 풀 수 있게 힌트를 한 단계씩만 줘. 아이가 답을 말하면 맞는지 확인하고 왜 그런지 물어봐줘.</div><div class="hint">누르면 복사</div></div>
+      <p>가정 내 원칙 4가지: <b>30초 먼저 생각 · 그대로 베끼지 않기 · 한 번 더 확인 · 사용 시간 정하기</b></p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <button onclick="tg(this)">학생: 답 말고 실력이 남게 <span>공부 · 진로</span></button>
+    <div class="body">
+      <p>AI로 숙제를 '끝내는' 건 쉽습니다. 문제는 <b>내 실력이 남느냐</b>. 잘 쓰는 사람일수록 AI 답을 '출발점'으로만 씁니다.</p>
+      <div class="say" onclick="cp(this)"><div class="lbl">AI vs 나: 글쓰기 대결</div><div class="txt">'우리 동네에 필요한 것'이라는 주제로 내가 먼저 5줄 쓸게. 그다음 너도 5줄 써줘. 그리고 둘을 비교해서 내 글의 좋은 점 2개, 고치면 좋을 점 2개를 말해줘. 내 글: (여기에 붙여넣기)</div><div class="hint">누르면 복사</div></div>
+      <div class="say" onclick="cp(this)"><div class="lbl">모르는 걸 끝까지 이해하기</div><div class="txt">나는 중학생이야. 이 내용이 이해가 안 돼. 초등학생도 알 수 있게 비유를 들어 설명해주고, 내가 제대로 이해했는지 확인하는 질문을 3개 해줘. 내용: (여기에 붙여넣기)</div><div class="hint">누르면 복사</div></div>
+      <div class="say" onclick="cp(this)"><div class="lbl">독서: 읽은 책 정리하기</div><div class="txt">방금 읽은 책 내용을 내가 말해볼게. 다 듣고 나서 내가 놓친 부분이 있으면 짚어주고, 이 책과 이어서 읽으면 좋을 책을 이유와 함께 3권 추천해줘.</div><div class="hint">누르면 복사</div></div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <button onclick="tg(this)">어르신: 말과 사진이면 충분합니다 <span>음성 · 큰 글씨</span></button>
+    <div class="body">
+      <p>AI는 어르신께 오히려 유리합니다. <b>키보드가 필요 없습니다.</b></p>
+      <ul>
+        <li>앱을 열고 <b>마이크 그림</b>을 눌러 말합니다. 끝나면 다시 누릅니다.</li>
+        <li>답이 작으면 <b>"큰 글씨로 다시 말해줘"</b>라고 하면 됩니다.</li>
+        <li>소리로 듣고 싶으면 스피커 그림을 누르거나 <b>"읽어줘"</b>라고 합니다.</li>
+      </ul>
+      <div class="say" onclick="cp(this)"><div class="lbl">처음 해보는 말</div><div class="txt">나는 일흔 살이고 스마트폰이 아직 서툴러. 앞으로 내가 물어보면 짧고 쉬운 말로, 어려운 단어 없이 대답해줘.</div><div class="hint">누르면 복사</div></div>
+      <div class="say" onclick="cp(this)"><div class="lbl">병원·약</div><div class="txt">(약봉투 사진 찍고) 이 약들을 언제 어떻게 먹어야 하는지 아주 쉽게 알려줘. 같이 먹으면 안 되는 게 있는지도. 그런데 정확한 건 약사님께 확인하라고 꼭 말해줘.</div><div class="hint">누르면 복사</div></div>
+      <div class="say" onclick="cp(this)"><div class="lbl">가족에게 보낼 글</div><div class="txt">손주 생일에 보낼 짧은 축하 문자를 써줘. 따뜻하게, 세 줄로.</div><div class="hint">누르면 복사</div></div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <button onclick="tg(this)">생활: 매일 쓰는 것들 <span>가계부 · 여행 · 정리</span></button>
+    <div class="body">
+      <div class="say" onclick="cp(this)"><div class="lbl">장보기·가계부 정리</div><div class="txt">(표 파일을 올리고) 이 표를 읽고 총액이 얼마인지, 어디에 돈이 가장 많이 들었는지 알려줘. 그리고 입력이 잘못된 것 같은 항목이 있으면 짚어줘.</div><div class="hint">누르면 복사</div></div>
+      <div class="say" onclick="cp(this)"><div class="lbl">여행 계획 짜기</div><div class="txt">가족 넷이 1박 2일로 가까운 바다에 다녀오려고 해. 초등학생 아이가 있고 운전은 내가 해. 무리하지 않는 일정으로 시간대별 계획을 짜주고, 예상 비용도 대략 알려줘.</div><div class="hint">누르면 복사</div></div>
+      <div class="say" onclick="cp(this)"><div class="lbl">냉장고 털기</div><div class="txt">(냉장고 사진 찍고) 이 재료들로 오늘 저녁에 만들 수 있는 요리를 세 가지 추천해줘. 조리 시간이 짧은 것부터, 만드는 법도 간단히.</div><div class="hint">누르면 복사</div></div>
+      <div class="say" onclick="cp(this)"><div class="lbl">모임 회비 정산</div><div class="txt">(명단 파일을 올리고) 이 명단에서 아직 회비를 안 낸 사람이 누구인지, 모인 금액이 얼마인지 정리해줘. 그리고 미납자에게 보낼 정중한 안내 문자를 짧게 써줘.</div><div class="hint">누르면 복사</div></div>
+    </div>
+  </div>
+  <div class="acc">
+    <button onclick="tg(this)">직장인: 회사 일에 써보기 <span>보고서 · 메일 · 회의</span></button>
+    <div class="body">
+      <p>핵심은 <b>AI에게 초안을 맡기고, 내가 고치는 것</b>입니다. 처음부터 쓰는 시간이 확 줄어듭니다.</p>
+      <div class="say" onclick="cp(this)"><div class="lbl">보고서 초안: 형식까지 정해주기</div><div class="txt">이 자료로 팀장님 보고용 한 장 초안을 써줘. 구성은 현황 → 문제 → 대안 세 가지 → 추천안 순서로. 숫자마다 근거를 붙이고, 자료에 없는 내용을 넣었다면 [추정]이라고 표시해줘.</div><div class="hint">누르면 복사</div></div>
+      <div class="say" onclick="cp(this)"><div class="lbl">메일: 어렵게 거절하거나 부탁할 때</div><div class="txt">거래처에 일정 연기를 요청하는 메일을 써줘. 우리 쪽 사정으로 2주가 더 필요한 상황이야. 정중하지만 변명처럼 보이지 않게, 대안 일정을 함께 제시하는 형식으로. 10줄 이내로.</div><div class="hint">누르면 복사</div></div>
+      <div class="say" onclick="cp(this)"><div class="lbl">회의록 → 할 일 정리</div><div class="txt">(회의 메모나 녹취록을 붙여넣고) 이걸 정리해줘. 1) 결정된 것 2) 아직 정해지지 않은 것 3) 할 일 표(담당자·기한 포함) 4) 내가 다음 회의 전에 확인해야 할 것. 순서대로.</div><div class="hint">누르면 복사</div></div>
+      <div class="say" onclick="cp(this)"><div class="lbl">표·데이터 정리</div><div class="txt">(엑셀이나 표 파일을 올리고) 이 표에서 눈에 띄는 특징 세 가지를 숫자를 근거로 알려줘. 입력이 잘못된 것 같은 항목이 있으면 짚어주고, 보고에 쓸 한 줄 요약도 만들어줘.</div><div class="hint">누르면 복사</div></div>
+      <div class="say" onclick="cp(this)"><div class="lbl">긴 문서 빨리 파악하기</div><div class="txt">(문서를 올리고) 이 문서에서 내가 꼭 알아야 할 것 다섯 가지만 뽑아줘. 그리고 우리에게 불리하거나 놓치면 손해 보는 조건이 있으면 따로 표시해줘.</div><div class="hint">누르면 복사</div></div>
+      <p><b>보안은 꼭 지키세요.</b> 회사가 승인한 도구와 계정으로만 쓰고, 고객 정보·비공개 문서는 넣지 않습니다. 필요하면 이름은 <b>A씨</b>로 바꿔서 넣으세요. 자세한 건 6번 안전 가이드에.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══ 3 심화 에이전트 ═══ -->
+<section class="panel" id="p-agent">
+  <p class="lead">여기부터는 <b>관심 있는 분만</b> 천천히 따라 해보세요. 강의에서 잠깐 보여드린 것들을 순서대로 적어뒀습니다. 급할 것 없습니다.</p>
+
+  <div class="card">
+    <div class="head"><div class="step">A</div><div><h3>에이전트: 일을 통째로 맡기기</h3><div class="app">여러 단계를 한 번에</div></div></div>
+    <div class="tip"><b>차이가 뭘까:</b> "총액이 얼마야?"는 <b>하나만</b> 답합니다. 아래처럼 시키면 AI가 <b>읽고 → 찾아내고 → 만들기</b>까지 스스로 밟습니다. 이게 에이전트입니다.</div>
+    <div class="say" onclick="cp(this)"><div class="lbl">① 표 파일을 올리고: 세 가지를 한 번에</div><div class="txt">이 표를 분석해줘. 순서대로 세 가지를 해줘.
+1) 총액과 분류별 합계를 표로 정리
+2) 돈이 과하게 들어간 항목과 입력이 잘못된 것 같은 항목을 근거와 함께 짚어줘
+3) 가족에게 공유할 짧은 정산 메시지 초안까지 써줘</div><div class="hint">누르면 복사</div></div>
+    <div class="tip">6번 자료 탭의 <b>추석 장보기 표</b>로 해보세요. 일부러 이상한 항목을 하나 숨겨뒀습니다. AI가 찾아내는지 보세요.</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">B</div><div><h3>AI가 나에게 먼저 묻게 하기</h3><div class="app">가장 쉬운 고급 기술</div></div></div>
+    <div class="tip">일을 시키기 전에 <b>AI가 나에게 질문하게</b> 만들면, 결과가 내 상황에 훨씬 잘 맞습니다. 어떤 요청 뒤에든 이 한 문장만 붙이면 됩니다.</div>
+    <div class="say" onclick="cp(this)"><div class="lbl">이 문장을 요청 뒤에 붙이세요</div><div class="txt">~하고 싶어. 그런데 실행하기 전에 나에게 물어볼 게 있다면 먼저 물어본 뒤에 답변해.</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">예시: 동네 행사 기획</div><div class="txt">우리 아파트 가을 나눔장터를 기획하고 싶어. 그런데 실행하기 전에 나에게 물어볼 게 있다면 먼저 물어본 뒤에 답변해.</div><div class="hint">누르면 복사</div></div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">C</div><div><h3>여러 번 고쳐가며 완성하기</h3><div class="app">한 번에 끝내려 하지 않기</div></div></div>
+    <div class="tip">AI를 잘 쓰는 사람은 <b>한 번에 끝내지 않습니다.</b> 초안을 받고, 고쳐달라고 하고, 또 고칩니다. 대화 한 번이 아니라 <b>대화 여러 번</b>이 비결입니다.</div>
+    <div class="say" onclick="cp(this)"><div class="lbl">1단계: 초안</div><div class="txt">동네 도서관에서 열 독서 모임 안내문을 써줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">2단계: 구체화</div><div class="txt">좋아. 그런데 참가 대상이 초등학생 자녀를 둔 부모님이야. 그 분들 마음에 와닿게 다시 써주고, 꼭 들어가야 할 정보가 빠진 게 있으면 알려줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">3단계: 다듬기</div><div class="txt">조금 길어. 절반 길이로 줄이고, 제목을 눈에 띄게 세 가지 안으로 제안해줘.</div><div class="hint">누르면 복사</div></div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">D</div><div><h3>자료를 읽히고 물어보기</h3><div class="app">긴 문서도 한 번에</div></div></div>
+    <div class="tip">PDF·사진·표 파일을 올린 뒤 물어보면, AI가 그 안에서 답을 찾습니다. 인터넷 검색보다 <b>틀릴 확률이 낮습니다</b>. 올린 자료 안에서만 답하니까요.</div>
+    <div class="say" onclick="cp(this)"><div class="lbl">긴 안내문·약관 읽히기</div><div class="txt">(파일을 올리고) 이 문서에서 내가 꼭 알아야 할 것 다섯 가지만 뽑아줘. 그리고 놓치면 손해 보는 조건이 있으면 따로 표시해줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">설문·명단 같은 표 분석</div><div class="txt">(표 파일을 올리고) 이 자료를 분석해서 눈에 띄는 특징 세 가지를 알려줘. 숫자를 근거로 말해주고, 확실하지 않은 건 표시해줘.</div><div class="hint">누르면 복사</div></div>
+  </div>
+</section>
+
+
+<!-- ═══ 4 MCP 연결 ═══ -->
+<section class="panel" id="p-mcp">
+  <p class="lead">AI에게 <b>공공 데이터베이스를 직접 연결</b>하는 방법입니다. 조금 어렵지만, 한 번 해두면 AI가 <b>지어내지 않고 실제 자료를 보고</b> 답합니다.</p>
+
+  <div class="card">
+    <div class="head"><div class="step">?</div><div><h3>MCP가 뭔가요</h3><div class="app">한 문장으로</div></div></div>
+    <div class="tip"><b>AI에게 전문 자료실 열쇠를 주는 것</b>입니다.<br><br>지금까지 AI는 배운 내용으로만 답했습니다. 그래서 법령 조문이나 통계 숫자를 <b>그럴듯하게 지어내는</b> 일이 있었죠. MCP를 연결하면 AI가 <b>법제처·국가통계 같은 원본을 직접 열어보고</b> 답합니다. 없으면 "없다"고 말합니다.<br><br>정식 이름은 Model Context Protocol. 어느 AI에나 꽂을 수 있는 <b>표준 규격</b>이라 한 번 만들어진 자료실은 여러 AI에서 같이 쓸 수 있습니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">1</div><div><h3>어떤 AI에서 되나요: 먼저 확인</h3><div class="app">2026년 9월 기준</div></div></div>
+    <div class="tip">
+      <b>클로드: 가장 쉽고, 무료 계정도 됩니다</b> ✅<br>
+      무료·Pro·Max·팀 플랜 모두 지원. 단 <b>무료는 1개만</b> 연결할 수 있습니다. 일반인이라면 여기서 시작하세요.<br><br>
+      <b>챗GPT: Plus·Pro면 됩니다. 설정을 한 번 켜야 해요</b> ⚠️<br>
+      <b>무료 계정은 안 되고</b>, Plus·Pro·Business·Enterprise는 <b>'개발자 모드'</b>를 켜면 연결할 수 있습니다. 많이 쓰시는 Plus(월 20달러)면 가능합니다. 방법은 바로 아래 3번에.<br><br>
+      <b>제미나이: 일반 앱에서는 안 됩니다</b> ❌<br>
+      Gemini CLI(개발자용 터미널)나 기업용 버전에서만 됩니다. 스마트폰·웹의 제미나이 앱에는 커스텀 연결 기능이 없습니다.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">2</div><div><h3>클로드에 연결하기: 5분</h3><div class="app">가장 권장하는 방법</div></div></div>
+    <div class="tip">
+      <b>①</b> claude.ai에 로그인 (PC 브라우저에서 하세요. 모바일에서는 추가가 안 됩니다)<br>
+      <b>②</b> 좌측 하단 프로필 → <b>설정</b> → <b>커넥터</b><br>
+      <b>③</b> <b>커스텀 커넥터 추가</b> 를 누릅니다<br>
+      <b>④</b> 이름과 <b>서버 URL</b>을 넣습니다 (아래 4번에서 복사)<br>
+      <b>⑤</b> 추가 후 <b>연결</b>을 누르고 권한을 승인합니다<br>
+      <b>⑥</b> 대화창에서 도구 아이콘을 눌러 <b>켜져 있는지</b> 확인<br><br>
+      한 번 등록하면 <b>스마트폰 클로드 앱에서도 그대로 쓸 수 있습니다.</b> (추가만 PC에서)
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">3</div><div><h3>챗GPT에 연결하기: 개발자 모드</h3><div class="app">Plus·Pro 이상 · PC 웹에서</div></div></div>
+    <div class="tip">
+      <b>① 개발자 모드 켜기</b><br>
+      프로필 → <b>설정</b> → <b>커넥터</b> → <b>고급</b>(Advanced) → <b>개발자 모드</b> 켜기<br>
+      <span style="color:var(--muted)">※ 이 메뉴가 안 보이면 무료 계정이거나, 회사 계정에서 관리자가 막아둔 경우입니다.</span><br><br>
+      <b>② 커넥터(앱) 만들기</b><br>
+      같은 커넥터 화면에서 <b>앱 만들기</b> 또는 <b>+</b> 를 누르고 아래를 입력합니다.<br>
+      · 이름: 예) 법령<br>
+      · 서버 URL: 아래 4번에서 복사해 붙여넣기<br>
+      · 인증: <b>No Authentication (인증 없음)</b> 선택 ← 아래 서버들은 로그인이 필요 없습니다<br>
+      · 위험을 이해했다는 <b>동의 체크</b> 후 만들기<br><br>
+      <b>③ 대화에서 불러 쓰기</b><br>
+      새 대화 → 입력창의 <b>＋</b> 메뉴 → <b>개발자 모드</b>(또는 더보기) → 방금 만든 앱 선택<br>
+      처음 쓸 때 승인 창이 뜨고, 도구를 실제로 쓸 때 한 번 더 확인을 요청합니다.<br><br>
+      <b>안 될 때 두 가지만 확인</b><br>
+      · URL 끝에 <b>슬래시(/)가 붙어 있지 않은지</b>. 붙으면 실패할 수 있습니다<br>
+      · 앱을 만든 뒤 <b>새 대화</b>를 열었는지. 기존 대화에서는 안 보입니다
+    </div>
+    <div class="tip" style="margin-top:12px"><b>중요: 개인 플랜이면 꼭 알아두세요.</b> 무료·Plus·Pro에서는 <b>'모두를 위한 모델 개선'이 켜져 있으면 커넥터로 읽은 정보도 학습에 쓰일 수 있습니다.</b> 6번 안전 가이드의 첫 번째 설정을 먼저 끄고 쓰세요. (Business·Enterprise·Edu는 학습에 쓰지 않습니다)<br><br><b>음성 모드에서는 커넥터가 작동하지 않습니다</b>. 텍스트 대화에서만 됩니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">4</div><div><h3>연결해볼 공공 자료실 5곳</h3><div class="app">모두 무료 · 회원가입 없음</div></div></div>
+    <div class="tip">광진구청에 근무하는 한 공무원이 만들어 <b>무료로 공개</b>한 서버들입니다. 아래 주소를 그대로 복사해 넣으면 됩니다.</div>
+    <div class="say" onclick="cp(this)"><div class="lbl">법령: 법제처 법령·판례·우리 동네 조례</div><div class="txt">https://mcp.gomdori.app/law</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">통계: 국가통계(KOSIS) 인구·가구·물가</div><div class="txt">https://mcp.gomdori.app/stats</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">건축물대장: 부동산·집 정보</div><div class="txt">https://mcp.gomdori.app/archhub</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">학교정보: 학교 공시 자료</div><div class="txt">https://mcp.gomdori.app/school</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">특허·상표</div><div class="txt">https://mcp.gomdori.app/patent</div><div class="hint">누르면 복사</div></div>
+    <div class="tip"><b>무료 계정은 1개만</b> 연결됩니다. 가장 쓸 것 같은 하나를 고르세요. 생활에 제일 요긴한 건 <b>법령</b>입니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">📖</div><div><h3>법령: 생활 속 궁금증 풀기</h3><div class="app">연결 후 이렇게 물어보세요</div></div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">층간소음</div><div class="txt">윗집 소음 때문에 몇 달째 힘들어. 법에서 정한 층간소음 기준이 낮과 밤에 각각 어떻게 되는지, 근거 규정 이름과 조문 번호를 붙여서 알려줘. 그리고 내가 도움을 청할 수 있는 공공 서비스도 찾아줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">전월세: 계약이 끝나가는데</div><div class="txt">전세 계약이 곧 끝나는데 집주인이 나가라고 해. 내가 계속 살 수 있는 권리가 있는지, 있다면 언제까지 어떻게 통지해야 하는지 조문과 함께 알려줘. 보증금을 지키려면 뭘 해둬야 하는지도.</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">아르바이트: 임금을 못 받았을 때</div><div class="txt">아이가 카페에서 3주만 일하고 그만뒀는데 월급을 안 준대. 한 달을 못 채우면 못 받는 건지, 주휴수당은 받을 수 있는지 근거 조문과 함께 알려줘. 어디에 신고할 수 있는지도.</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">우리 동네 조례: 이게 MCP의 진짜 강점</div><div class="txt">우리 지역의 반려동물 관련 조례와 생활폐기물 배출 관련 조례를 찾아줘. 우리 동네에만 적용되는 규정이 따로 있는지, 위반하면 어떻게 되는지 조문과 함께 알려줘. 지역: (여기에 시·군·구 쓰기)</div><div class="hint">누르면 복사</div></div>
+    <div class="tip"><b>왜 조례가 강점인가:</b> 조례는 지역마다 달라서 일반 검색으로는 찾기 어렵습니다. AI가 우리 동네 조례를 직접 뒤져주는 건 MCP 없이는 거의 안 됩니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">📊</div><div><h3>통계: 숫자로 확인하기</h3></div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">우리 동네는 어떤 동네일까</div><div class="txt">우리 지역의 1인가구 비율과 65세 이상 인구 비율을 찾아줘. 전국 평균이나 같은 시·도의 다른 지역과 비교하면 어느 수준인지, 최근 몇 년간 어떻게 변해왔는지도. 숫자마다 통계표 이름과 기준 연도를 꼭 붙여줘. 지역: (여기에 쓰기)</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">체감이 맞는지 확인하기</div><div class="txt">요즘 물가가 많이 오른 것 같은데 실제 통계로는 어떤지 확인해줘. 최근 몇 년간 소비자물가 변화를 품목별로 보여주고, 특히 많이 오른 것과 덜 오른 것을 구분해줘. 출처와 기준 시점을 꼭 붙여줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="tip"><b>통계 기관명이 바뀌었습니다</b>. 통계청이 <b>국가데이터처</b>로 개편됐습니다. AI가 옛 이름으로 답할 수 있습니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">🏠</div><div><h3>건축물대장: 이사 갈 집 확인하기</h3><div class="app">전월세·매매 계약 전에</div></div></div>
+    <div class="tip">주소만 넣으면 <b>그 건물의 공식 기록</b>을 봅니다. 언제 지었는지, 무슨 용도로 허가받았는지, 주차 대수는 몇 대인지. <b>계약 전에 확인하면 좋은 것들</b>입니다.</div>
+    <div class="say" onclick="cp(this)"><div class="lbl">계약 전 집 확인</div><div class="txt">이 주소 건물의 건축물대장 정보를 찾아줘. 언제 사용승인을 받았는지, 주용도가 무엇인지, 구조와 규모, 주차 대수, 용도지역을 정리해줘. 그리고 내가 전세 계약 전에 눈여겨봐야 할 점이 있으면 알려줘. 주소: (여기에 쓰기)</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">주용도와 실제 용도가 다른지</div><div class="txt">이 주소 건물의 허가받은 용도와 층별 현황을 알려줘. 주택으로 쓰이고 있는데 허가 용도가 다른 경우가 있는지 확인해줘. 주소: (여기에 쓰기)</div><div class="hint">누르면 복사</div></div>
+    <div class="tip"><b>주의:</b> 이 자료는 <b>참고용</b>입니다. 실제 계약은 등기부등본·중개사 확인이 반드시 필요합니다. 건축물대장과 등기부등본은 다른 서류입니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">🎒</div><div><h3>학교정보: 학부모용</h3></div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">아이 학교 살펴보기</div><div class="txt">이 학교의 공시 정보를 찾아줘. 학급당 학생 수, 교원 현황, 급식 운영, 방과후 프로그램 같은 걸 정리해주고 눈에 띄는 특징이 있으면 알려줘. 학교: (여기에 쓰기)</div><div class="hint">누르면 복사</div></div>
+  </div>
+
+  <div class="warnbox">
+    <h3>꼭 알아둘 세 가지</h3>
+    <ul>
+      <li><b>무료 공개 서버라 혼잡할 수 있습니다.</b> 여러 사람이 동시에 쓰면 "요청이 많습니다" 오류가 납니다. 강의장에서 다 같이 누르면 거의 안 됩니다. <b>집에서 천천히</b> 해보세요.</li>
+      <li><b>연결한 AI는 그 자료실을 계속 볼 수 있습니다.</b> 내가 만든 게 아닌 서버를 연결할 때는 누가 만들었는지 확인하세요. 위 5곳은 공무원이 만들어 소스까지 공개한 것입니다.</li>
+      <li><b>MCP를 붙여도 최종 확인은 사람이 합니다.</b> 원본을 보고 답하니 훨씬 정확하지만, 중요한 결정은 조문 링크를 직접 눌러 확인하세요.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ 5 판별 요령 ═══ -->
+<section class="panel" id="p-check">
+  <p class="lead">AI는 <b>틀려도 당당합니다.</b> 세 가지만 기억하면 대부분 걸러집니다.</p>
+
+  <div class="rule"><div class="n">1</div><div><h3>할루시네이션: 그럴듯한 거짓</h3><p>숫자·날짜·사람 이름·법령 번호는 <b>반드시 원본과 대조</b>합니다. "출처 알려줘"라고 시키고, 링크가 실제로 열리는지 눌러보세요. 열리지 않는 링크는 지어낸 겁니다.</p></div></div>
+  <div class="rule"><div class="n">2</div><div><h3>아첨: 내 말에 맞춰준다</h3><p>내 의견을 먼저 말하면 AI는 동조하기 쉽습니다. <b>"반대 근거도 말해봐"</b>, <b>"이 답에서 틀릴 수 있는 부분은?"</b>을 습관처럼 붙이세요.</p></div></div>
+  <div class="rule"><div class="n">3</div><div><h3>초안이지 결론이 아니다</h3><p>잘 쓰는 사람일수록 AI 답을 '출발점'으로만 씁니다. 반대로 틀린 답도 그대로 따르면 스스로 생각하는 힘이 줄어듭니다. <b>최종 판단은 언제나 사람.</b></p></div></div>
+
+  <div class="card">
+    <div class="head"><div class="step">✓</div><div><h3>판별 프롬프트: 답이 나온 뒤 붙이기</h3></div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">3단 검증</div><div class="txt">방금 답에서 1) 확실한 사실 2) 추정 3) 확인이 필요한 것, 이렇게 셋으로 나눠서 다시 정리해줘. 그리고 각각 어디서 확인하면 되는지 기관이나 사이트 이름을 알려줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">가짜 뉴스·사기 문자 의심될 때</div><div class="txt">(문자나 글을 붙여넣고) 이 내용이 사실인지, 사기나 가짜 뉴스의 특징이 있는지 살펴봐줘. 판단 근거를 말하고, 내가 직접 확인할 수 있는 공식 기관과 방법을 알려줘.</div><div class="hint">누르면 복사</div></div>
+  </div>
+
+  <div class="warnbox">
+    <h3>이런 요청은 100% 사기입니다</h3>
+    <ul>
+      <li>"인증번호를 알려달라": 어떤 기관도 요구하지 않습니다</li>
+      <li>"가족인데 폰이 고장 나서" + 송금·인증 요청 → 반드시 <b>원래 번호로 직접 전화</b></li>
+      <li>문자 속 링크로 들어간 사이트에서 개인정보·계좌 입력</li>
+      <li>피해 의심 시 <b>112</b>(경찰) · <b>1332</b>(금융감독원) · 거래 은행 즉시 신고</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ 5 안전 가이드 ═══ -->
+<section class="panel" id="p-safe">
+  <p class="lead">AI를 <b>안전하게</b> 쓰는 법. 설정 몇 개만 알아두면 대부분 해결됩니다.</p>
+
+  <div class="card">
+    <div class="head"><div class="step">1</div><div><h3>내 대화를 학습에 쓰지 않게</h3><div class="app">한 번만 해두면 계속 적용</div></div></div>
+    <div class="tip"><b>가는 길:</b> 프로필 → <b>설정</b> → <b>데이터 제어</b> → "모두를 위한 모델 개선"을 <b>끄기</b>.<br><br>무료 계정은 기본적으로 대화가 모델 개선에 쓰일 수 있습니다. 이 스위치를 끄면 이후 대화는 학습에 사용되지 않습니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">2</div><div><h3>민감한 질문은 '임시 채팅'으로</h3><div class="app">대화창 위쪽 버튼 하나</div></div></div>
+    <div class="tip"><b>가는 길:</b> 새 대화 → 화면 위쪽 <b>임시 채팅</b> 켜기.<br><br>임시 채팅은 <b>대화 기록에 남지 않고, 메모리에 저장되지 않으며, 모델 학습에도 쓰이지 않습니다.</b> 건강·가족·돈 이야기처럼 남기고 싶지 않은 질문에 쓰세요.</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">3</div><div><h3>AI가 나를 어떻게 기억하는지 확인하기</h3><div class="app">메모리 관리: 꼭 한 번 열어보세요</div></div></div>
+    <div class="tip">챗GPT는 대화를 하다 보면 <b>나에 대한 정보를 스스로 저장</b>합니다. 편리하지만, 무엇이 저장됐는지 <b>내가 알고 있어야</b> 합니다.<br><br><b>가는 길</b><br>· PC: 프로필 → 설정 → <b>개인 맞춤 설정</b> → <b>메모리 관리</b><br>· 모바일: 사이드바 위쪽 프로필 → 개인 맞춤 설정 → 메모리<br><br>여기서 저장된 항목을 <b>하나씩 확인하고 개별 삭제</b>하거나 <b>전체 삭제</b>할 수 있습니다.</div>
+    <div class="say" onclick="cp(this)"><div class="lbl">먼저 이렇게 물어보세요</div><div class="txt">지금 네가 나에 대해 기억하고 있는 내용을 전부 목록으로 보여줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="tip"><b>기억하는 두 가지가 다릅니다</b><br>· <b>저장된 메모리</b>: "기억해줘"라고 했거나 AI가 알아서 저장한 것. 삭제 전까지 계속 반영됩니다.<br>· <b>채팅 기록 참조</b>: 지난 대화들을 참고하는 기능. 설정에서 따로 끌 수 있습니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">4</div><div><h3>기억을 고치거나 지우기</h3><div class="app">사실과 다르면 바로잡으세요</div></div></div>
+    <div class="tip">AI가 나를 <b>잘못 기억하고 있는 경우</b>가 생각보다 많습니다. 예전 직업, 예전에 살던 곳, 한 번 해본 취미를 계속 좋아한다고 알고 있는 식입니다. 그대로 두면 답이 계속 어긋납니다.</div>
+    <div class="say" onclick="cp(this)"><div class="lbl">틀린 기억 고치기</div><div class="txt">나에 대해 기억하고 있는 것 중에 사실과 다른 게 있어. (여기에 무엇이 틀렸는지 쓰기) 이건 지우고, 대신 (맞는 내용)으로 기억해줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">특정 내용만 잊게 하기</div><div class="txt">나에 대해 기억하고 있는 것 중에 (내용)은 잊어줘. 앞으로 이건 기억하지 마.</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">일부러 기억시키기: 이건 편리합니다</div><div class="txt">앞으로 대화할 때 기억해줘. 나는 답을 짧고 쉬운 말로 받는 걸 좋아하고, 어려운 용어는 풀어서 설명해주면 좋겠어.</div><div class="hint">누르면 복사</div></div>
+    <div class="tip"><b>꼭 확인할 것:</b> AI가 "잊었습니다"라고 답해도 <b>실제로 지워졌는지 설정에서 확인</b>하세요. 말로만 그렇게 답하고 목록에는 남아 있는 경우가 있습니다.<br><br><b>채팅을 지워도 메모리는 남습니다.</b> 둘은 별개라서 메모리는 따로 지워야 합니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">5</div><div><h3>기억 기능을 아예 끄기</h3><div class="app">공용 기기·민감한 주제</div></div></div>
+    <div class="tip">설정 → 개인 맞춤 설정(또는 메모리)에서 <b>메모리 기능 자체를 끌 수 있습니다.</b> 끄면 새로운 내용이 저장되지 않습니다.<br><br><b>이럴 때 끄세요:</b> 가족과 계정을 같이 쓸 때 · 공용 PC에서 쓸 때 · 건강이나 돈 이야기를 많이 할 때.<br><br>잠깐만 안 남기고 싶다면 <b>임시 채팅</b>(위 2번)이 더 간편합니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">6</div><div><h3>절대 입력하지 않는 것 5가지</h3><div class="app">한 번 넣으면 되돌리기 어렵습니다</div></div></div>
+    <div class="tip">
+      <b>①</b> 주민등록번호 · 여권번호 · 운전면허번호<br>
+      <b>②</b> 계좌번호 · 카드번호 · 비밀번호 · 인증번호<br>
+      <b>③</b> 남의 개인정보 (이름＋연락처＋주소가 함께 있는 명단)<br>
+      <b>④</b> 직장의 비공개 문서 · 내부 자료<br>
+      <b>⑤</b> 의료기록 · 진단서 등 민감정보 원본<br><br>
+      <b>대신 이렇게:</b> 이름은 <b>A씨</b>, 번호는 <b>010-0000-0000</b>으로 바꿔서 넣으세요. 문서는 개인정보를 지운 뒤 올립니다.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">7</div><div><h3>계정 지키기</h3></div></div>
+    <div class="tip"><b>①</b> 비밀번호를 다른 사이트와 <b>다르게</b> 쓰기<br><b>②</b> 2단계 인증(2FA) 켜기 (설정 → 보안)<br><b>③</b> 공용 PC(도서관·주민센터)에서는 반드시 <b>로그아웃</b><br><b>④</b> 대화 속 링크나 광고를 누를 때는 주소를 한 번 더 확인하기</div>
+  </div>
+</section>
+
+<!-- ═══ 6 자료 ═══ -->
+<section class="panel" id="p-files">
+  <p class="lead">실습에 쓸 샘플 자료입니다. <b>내려받아 직접 올려보세요.</b></p>
+
+  <div class="card">
+    <div class="head"><div class="step">📷</div><div><h3>사진으로 물어보기</h3></div></div>
+    <div class="tip">찍을 게 마땅치 않으면 이 사진을 저장해서 올려보세요.</div>
+    <div class="links">
+      <a href="files/sample-prescription.png" download>약봉투 샘플</a>
+      <a href="files/sample-notice.png" download>도서관 안내문 샘플</a>
+    </div>
+    <div class="say" onclick="cp(this)"><div class="lbl">사진 올리고 이렇게</div><div class="txt">이 사진에 뭐라고 써 있는지 큰 글씨로 정리해줘. 내가 꼭 알아야 할 것 세 가지만 먼저 말해줘.</div><div class="hint">누르면 복사</div></div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">📊</div><div><h3>표 분석해보기</h3></div></div>
+    <div class="tip">파일을 올리고 "분석해줘"라고 하면 AI가 표를 직접 읽습니다. 추석 장보기 표에는 <b>이상한 항목을 하나 숨겨뒀습니다.</b></div>
+    <div class="links">
+      <a href="files/chuseok-shopping-budget.csv" download>추석 장보기 표</a>
+      <a href="files/community-dues.csv" download>모임 회비 명단</a>
+      <a href="files/family-trip-plan.csv" download>가족 여행 일정</a>
+      <a href="files/library-reading-survey.csv" download>독서 설문 100명</a>
+    </div>
+    <div class="say" onclick="cp(this)"><div class="lbl">추석 장보기 표: 이렇게</div><div class="txt">이 표를 읽고 총액이 얼마인지, 어디에 돈이 가장 많이 들었는지 알려줘. 그리고 입력이 잘못된 것 같은 항목이 있으면 짚어줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">모임 회비: 이렇게</div><div class="txt">이 명단에서 아직 회비를 안 낸 사람이 누구인지, 모인 금액이 얼마인지 정리해줘. 그리고 미납자에게 보낼 정중한 안내 문자를 짧게 써줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">독서 설문: 심화용</div><div class="txt">이 설문 결과를 분석해서 연령대별로 어떤 분야를 좋아하는지, 어떤 프로그램을 원하는지 표로 정리해줘. 그리고 도서관이 다음에 어떤 프로그램을 열면 좋을지 근거와 함께 세 가지 제안해줘.</div><div class="hint">누르면 복사</div></div>
+  </div>
+
+  <div class="card">
+    <div class="head"><div class="step">🛡️</div><div><h3>판별 연습하기</h3></div></div>
+    <div class="tip">아래는 <b>강의 실습용으로 만든 가상 샘플</b>입니다. 실제 기관·기업과 무관하며 링크는 존재하지 않습니다.</div>
+    <div class="links"><a href="files/sample-scam-sms.png" download>사기 의심 문자 샘플</a></div>
+    <div class="say" onclick="cp(this)"><div class="lbl">사진 올리고 이렇게</div><div class="txt">이 문자들이 사기일 가능성이 있는지 하나씩 살펴봐줘. 어떤 점이 의심스러운지 근거를 말하고, 내가 직접 확인할 수 있는 공식 기관과 방법을 알려줘.</div><div class="hint">누르면 복사</div></div>
+  </div>
+</section>
+
+</main>
+
+<div class="bio">
+  <h3>김덕진</h3>
+  <div class="role">IT커뮤니케이션연구소(ITCL) 소장 · 세종사이버대학교 AI교육센터장 · 서울시립대 겸임교수</div>
+  <p><b>기술과 사람 사이를 통역하는 일</b>을 합니다.</p>
+
+  <div class="ask">저서</div>
+  <div class="books">
+    <b>『AI 시대, 부모로 살아가기』</b> <span style="color:var(--accent)">신간</span> · 한빛미디어, 2026.9<br>
+    <span style="color:var(--muted)">AI공학자 아빠 김덕진 × 정서지능 교육자 엄마 임한나. 한 아이를 키우며 부딪히고 합의해온 우리 집 AI 원칙. (구매링크)</span>
+  </div>
+  <div class="links">
+    <a href="https://product.kyobobook.co.kr/detail/S000221031456" target="_blank">AI 시대, 부모로 살아가기</a>
+    <a href="https://product.kyobobook.co.kr/detail/S000219669213" target="_blank">피지컬 AI 2026</a>
+    <a href="https://product.kyobobook.co.kr/detail/S000218055137" target="_blank">AI 2026 활용백과</a>
+    <a href="https://product.kyobobook.co.kr/detail/S000216958553" target="_blank">AI 에이전트 활용백과</a>
+  </div>
+
+  <div class="ask">강의 · 자문 · 방송 문의</div>
+  <div class="links">
+    <a href="https://litt.ly/kimdukjin" target="_blank">강의 문의</a>
+    <a href="mailto:info@itcl.kr">info@itcl.kr</a>
+    <a href="https://open.kakao.com/o/gQiVg8Bh" target="_blank">오픈채팅</a>
+  </div>
+</div>
+
+<div class="foot">
+  프롬프트는 자유롭게 바꿔 쓰세요. 실습 샘플 자료는 모두 가상으로 만든 것입니다.<br>
+  AI 답은 출발점입니다. 중요한 결정은 원본과 전문가 확인을 거치세요.
+</div>
+
+<div class="toast" id="toast">복사됐어요: 붙여넣거나 말로 하세요</div>
+<div class="fs"><button onclick="fz(-1)">A−</button><button onclick="fz(1)">A+</button></div>
+
+<script>
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); document.getElementById('p-'+b.dataset.t).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+function cp(el){
+  const t=el.querySelector('.txt');
+  navigator.clipboard.writeText((t?t.innerText:el.innerText).trim()).then(toast).catch(toast);
+}
+let tt;function toast(){const t=document.getElementById('toast');t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1600)}
+const done=new Set();
+function dn(btn){const id=btn.closest('.card').dataset.id;btn.classList.toggle('on');btn.classList.contains('on')?done.add(id):done.delete(id);btn.textContent=btn.classList.contains('on')?'완료':'완료 표시';
+  document.getElementById('doneN').textContent=done.size;document.getElementById('barFill').style.width=(done.size/6*100)+'%';}
+function tg(b){b.parentElement.classList.toggle('open')}
+let zz=1;function fz(d){zz=Math.max(.9,Math.min(1.35,zz+d*.1));document.body.style.zoom=zz}
+</script>
+</body>
+</html>
