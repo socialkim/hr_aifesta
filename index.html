@@ -1,547 +1,627 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>오늘 해보는 AI 실습 | 도서관 AI 특강</title>
-<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>에이전트 보스의 시대 | 2026 AI 융합산업 HRD 포럼 복기</title>
+<meta name="description" content="김덕진 ITCL 소장 기조연설 복기 페이지. AX 전환기, 산업 인재를 다시 설계하는 HRD.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="에이전트 보스의 시대 | HRD 포럼 기조연설 복기">
+<meta property="og:description" content="인재의 조건은 AI를 배우는 사람에서 AI를 부리는 사람으로. 30분 강연을 3분에 다시 봅니다.">
+<meta property="og:image" content="img/og.jpg">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root{
-  --accent:#2964FF;--accent-soft:#EAF0FF;--ink:#111827;--muted:#6B7280;--line:#E5E7EB;
-  --bg:#F7F7F5;--card:#FFFFFF;--ok:#16A34A;
-  --font:'Pretendard Variable',-apple-system,system-ui,sans-serif;--r:16px;--r-sm:10px;
+  --ink-1:#141414; --ink-2:#4A4A4A; --ink-3:#8A8A8A;
+  --bg:#FFFFFF; --soft:#F6F6F4; --line:#E6E6E3;
+  --accent:#FF5A4F; --accent-soft:#FFEDEA;
+  --dark:#0B0B0C;
+  --fs-hero:clamp(40px,9vw,84px);
+  --fs-big:clamp(56px,14vw,128px);
+  --fs-h2:clamp(26px,5.4vw,44px);
+  --fs-h3:clamp(19px,3.6vw,24px);
+  --fs-base:clamp(16px,2.2vw,18px);
+  --fs-sm:14px;
+  --pad:clamp(20px,5vw,48px);
+  --max:1080px;
 }
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;word-break:keep-all}
-a{color:var(--accent)}
-h1,h3,p,li,button,div{font-size:16px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color:var(--ink-1);background:var(--bg);font-size:var(--fs-base);line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+  -webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+.num{font-variant-numeric:tabular-nums}
+.label{font-size:var(--fs-sm);font-weight:700;letter-spacing:.08em;color:var(--accent)}
+.muted{color:var(--ink-3)}
 
-.hero{background:var(--ink);color:var(--card);padding:36px 20px 28px}
-.hero .wrap{max-width:760px;margin:0 auto}
-.hero .tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--accent-soft);margin-bottom:12px}
-.hero h1{font-size:30px;font-weight:800;line-height:1.2;letter-spacing:-.02em;margin-bottom:12px}
-.hero p{color:var(--card);opacity:.72;margin-bottom:24px}
-.progress{display:flex;align-items:center;gap:16px}
-.progress .num{font-size:19px;font-weight:800;line-height:1}
-.progress .num small{font-size:14px;font-weight:600;opacity:.6;margin-left:4px}
-.bar{flex:1;height:10px;background:var(--muted);border-radius:99px;overflow:hidden}
-.bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .35s}
+/* progress + nav */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:60}
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:16px;height:56px}
+.brand{font-weight:900;letter-spacing:-.02em;font-size:18px;flex:none}
+.nav ul{list-style:none;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin-left:auto;
+  -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent);padding-right:24px}
+.nav ul::-webkit-scrollbar{display:none}
+.nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:999px;font-size:15px;font-weight:600;color:var(--ink-2);text-decoration:none;white-space:nowrap}
+.nav a.on{color:var(--ink-1);background:var(--soft)}
 
-.tabs{position:sticky;top:0;z-index:50;background:var(--card);border-bottom:1px solid var(--line)}
-.tabs .wrap{max-width:760px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none}
-.tabs .wrap::-webkit-scrollbar{display:none}
-.tab{flex:1 0 auto;padding:16px;font-weight:600;color:var(--muted);background:none;border:0;border-bottom:3px solid transparent;font-family:var(--font);cursor:pointer;white-space:nowrap}
-.tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+/* hero */
+.hero{position:relative;padding:clamp(32px,6vw,72px) 0 clamp(40px,7vw,88px)}
+.hero .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(24px,5vw,64px);align-items:center}
+.hero h1{font-size:var(--fs-hero);line-height:1.08;font-weight:900;letter-spacing:-.035em;margin:14px 0 20px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero .sub{font-size:clamp(18px,2.8vw,24px);font-weight:700;color:var(--ink-1);line-height:1.45}
+.hero .meta{margin-top:20px;font-size:15px;color:var(--ink-3);line-height:1.6}
+.hero figure{border-radius:24px;overflow:hidden;aspect-ratio:4/5;background:var(--soft)}
+.hero figure img{width:100%;height:100%;object-fit:cover}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.chip{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);font-weight:600;font-size:15px;text-decoration:none;background:#fff}
+.chip.primary{background:var(--ink-1);color:#fff;border-color:var(--ink-1)}
 
-.main{max-width:760px;margin:0 auto;padding:24px 16px 96px}
-.panel{display:none}.panel.on{display:block}
-.lead{margin:0 0 24px}
-.card{background:var(--card);border-radius:var(--r);padding:20px 16px;margin-bottom:16px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
-.card .head{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
-.step{flex:0 0 36px;height:36px;border-radius:10px;background:var(--accent-soft);color:var(--accent);font-weight:800;display:flex;align-items:center;justify-content:center}
-.card h3,.rule h3,.acc>button{font-size:19px;font-weight:700;line-height:1.35}
-.card h3{flex:1}
-.card .app{font-size:12px;color:var(--muted);margin-top:4px}
-.say{background:var(--accent-soft);border-radius:var(--r-sm);padding:16px;cursor:pointer;margin-bottom:12px}
-.say:active{opacity:.85}
-.say .lbl,.section-h{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.04em;margin-bottom:4px}
-.say .txt{font-size:19px;font-weight:600;line-height:1.5;white-space:pre-wrap}
-.say .hint{font-size:14px;color:var(--muted);margin-top:8px}
-.tip,.acc .body p,.acc .body li,.rule p,.warnbox li,.foot{font-size:14px}
-.tip b,.acc .body p b,.rule p b{color:var(--accent)}
-.done{margin-top:12px;width:100%;padding:12px;border-radius:var(--r-sm);border:1.5px solid var(--line);background:var(--card);font-family:var(--font);font-weight:600;color:var(--muted);cursor:pointer}
-.done.on{background:var(--accent-soft);border-color:var(--ok);color:var(--ok)}
-.acc{background:var(--card);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
-.acc>button{width:100%;text-align:left;padding:16px;background:none;border:0;font-family:var(--font);color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:pointer}
-.acc>button span{font-size:12px;font-weight:600;color:var(--muted);flex-shrink:0}
-.acc .body{display:none;padding:0 16px 16px}
-.acc.open .body{display:block}
-.acc .body .say{margin-top:12px}
-.acc .body p{margin:8px 0}
-.acc .body ul{padding-left:16px}
-.acc .body li{margin:4px 0}
-.rule{display:flex;gap:16px;background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:12px}
-.rule .n{flex:0 0 32px;font-size:19px;font-weight:800;color:var(--accent);line-height:1.2}
-.rule h3{margin-bottom:4px}
-.warnbox{background:var(--accent-soft);border-radius:var(--r);padding:16px;margin:24px 0 0}
-.warnbox h3{font-size:19px;font-weight:700;margin-bottom:8px}
-.warnbox ul{padding-left:16px}
-.warnbox li{margin:4px 0}
-.section-h{margin:28px 0 12px;color:var(--muted)}
-.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.links a{font-size:14px;font-weight:600;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:8px 16px;color:var(--ink)}
-.foot{max-width:760px;margin:0 auto;padding:0 16px 32px;color:var(--muted);line-height:1.6}
-.bio{background:var(--card);border-radius:var(--r);padding:20px 16px;margin:32px auto 16px;max-width:760px}
-.bio h3{font-size:19px;font-weight:700;margin-bottom:4px}
-.bio .role{font-size:14px;color:var(--accent);font-weight:600;margin-bottom:12px}
-.bio p{font-size:14px;color:var(--ink);margin:8px 0}
-.bio .books{font-size:14px;color:var(--muted);margin:12px 0}
-.bio .ask{font-size:14px;font-weight:600;color:var(--ink);margin:16px 0 8px}
-.toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%) translateY(16px);background:var(--ink);color:var(--card);padding:12px 24px;border-radius:12px;font-weight:600;opacity:0;pointer-events:none;transition:all .3s;z-index:99;white-space:nowrap}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.fs{position:fixed;right:16px;bottom:16px;display:flex;gap:8px;z-index:60}
-.fs button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);font-family:var(--font);font-weight:800;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+/* one-line */
+.oneline{background:var(--soft);padding:clamp(56px,10vw,120px) 0}
+.oneline p.kicker{color:var(--ink-3);font-weight:600;margin-bottom:18px}
+.oneline h2{font-size:clamp(28px,6vw,56px);line-height:1.25;font-weight:800;letter-spacing:-.03em}
+.oneline h2 s{text-decoration:none;color:var(--ink-3);font-weight:600}
+.oneline h2 b{color:var(--accent)}
+.shift{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;margin-top:40px}
+.shift div{background:#fff;border-radius:16px;padding:20px 22px}
+.shift .arrow{font-size:28px;color:var(--accent);font-weight:800}
+.shift small{display:block;font-size:var(--fs-sm);color:var(--ink-3);font-weight:600;margin-bottom:4px}
+.shift strong{font-size:clamp(17px,2.6vw,21px)}
+
+/* section */
+section.part{padding:clamp(64px,11vw,128px) 0 0}
+.part-head{display:grid;grid-template-columns:1fr 280px;gap:clamp(20px,4vw,48px);align-items:end;margin-bottom:clamp(36px,6vw,64px)}
+.part-head .pno{font-size:var(--fs-big);font-weight:900;line-height:.9;letter-spacing:-.05em;color:var(--ink-1)}
+.part-head h2{font-size:var(--fs-h2);line-height:1.25;font-weight:800;letter-spacing:-.03em;margin-top:12px}
+.part-head p{margin-top:12px;color:var(--ink-2)}
+.part-head figure{border-radius:20px;overflow:hidden;aspect-ratio:4/5}
+.part-head figure img{width:100%;height:100%;object-fit:cover}
+.block{margin-bottom:clamp(48px,8vw,88px)}
+.block h3{font-size:var(--fs-h3);font-weight:800;letter-spacing:-.02em;line-height:1.4;margin-bottom:10px}
+.block > p{color:var(--ink-2);max-width:760px}
+.src{font-size:13px;color:var(--ink-3);margin-top:14px}
+
+/* stat */
+.stat{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin:22px 0 6px}
+.stat .v{font-size:var(--fs-big);font-weight:900;letter-spacing:-.05em;line-height:1;color:var(--accent)}
+.stat .v .u{font-size:.4em;margin-left:4px;letter-spacing:-.02em}
+.stat .t{font-size:clamp(17px,2.4vw,20px);font-weight:700;max-width:420px;line-height:1.45}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
+.mini{background:var(--soft);border-radius:16px;padding:20px}
+.mini .v{font-size:clamp(28px,5vw,40px);font-weight:900;letter-spacing:-.03em;line-height:1.1}
+.mini .t{font-size:var(--fs-sm);color:var(--ink-2);margin-top:6px;line-height:1.5}
+
+/* ladder */
+.ladder{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:22px;align-items:end}
+.step{background:var(--soft);border-radius:16px;padding:18px;min-height:var(--h)}
+.step:nth-child(1){--h:150px}.step:nth-child(2){--h:180px}.step:nth-child(3){--h:210px}
+.step:nth-child(4){--h:240px;background:var(--ink-1);color:#fff}
+.step small{display:block;font-size:13px;font-weight:700;opacity:.6}
+.step b{display:block;font-size:18px;margin:2px 0 8px}
+.step span{font-size:var(--fs-sm);line-height:1.5;display:block;opacity:.85}
+
+/* list cards */
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
+.card{background:var(--soft);border-radius:16px;padding:22px}
+.card b{display:block;font-size:18px;margin-bottom:6px}
+.card p{font-size:15px;color:var(--ink-2);line-height:1.6}
+.quote{border-left:4px solid var(--accent);padding:6px 0 6px 18px;margin-top:24px;font-weight:700;font-size:clamp(18px,2.8vw,22px);line-height:1.5}
+
+/* compare */
+.vs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
+.vs .card h4{font-size:20px;margin-bottom:12px}
+.vs dl{display:grid;gap:12px}
+.vs dt{font-size:13px;font-weight:700;color:var(--ink-3)}
+.vs dd{font-size:15px;line-height:1.55}
+.vs .card.on{background:var(--accent-soft)}
+
+/* bars */
+.bars{margin-top:24px;display:grid;gap:14px;max-width:760px}
+.bar .row{display:flex;justify-content:space-between;font-weight:700;font-size:15px;margin-bottom:6px}
+.bar .track{height:14px;background:var(--soft);border-radius:999px;overflow:hidden}
+.bar .fill{height:100%;width:0;background:var(--ink-3);border-radius:999px;transition:width 1.2s cubic-bezier(.2,.7,.2,1)}
+.bar.main .fill{background:var(--accent)}
+
+/* table → cards */
+.def{margin-top:22px;border-top:1px solid var(--line)}
+.def .r{display:grid;grid-template-columns:160px 1fr 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);align-items:start}
+.def .r.h{font-size:13px;font-weight:700;color:var(--ink-3);padding:10px 0}
+.def .k{font-weight:700}
+.def .old{color:var(--ink-3)}
+.def .new{font-weight:700}
+.def .new::before{content:"→ ";color:var(--accent)}
+
+/* prescriptions */
+.rx{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
+.rx .card{padding:26px}
+.rx .n{font-size:14px;font-weight:800;color:var(--accent)}
+.rx b{font-size:20px;margin:4px 0 10px}
+.cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.cols3 span{background:#fff;border-radius:10px;padding:10px;font-size:13px;line-height:1.45}
+.cols3 span i{display:block;font-style:normal;font-weight:800;margin-bottom:2px}
+
+/* workbook */
+.work{background:var(--ink-1);color:#fff;border-radius:28px;padding:clamp(24px,5vw,48px);margin-top:8px}
+.work .label{color:#FF8A82}
+.work h3{font-size:var(--fs-h2);line-height:1.25;margin:10px 0 8px;font-weight:800;letter-spacing:-.03em}
+.work > p{color:rgba(255,255,255,.75)}
+.work label.f{display:block;font-size:14px;font-weight:700;margin:24px 0 8px;color:rgba(255,255,255,.8)}
+.work input,.work textarea{width:100%;font:inherit;font-size:16px;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:12px 14px;outline:none}
+.work input:focus,.work textarea:focus{border-color:#FF8A82}
+.work textarea{min-height:140px;resize:vertical;line-height:1.6}
+.work .three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.work .three label.f span{display:block;font-weight:500;font-size:13px;color:rgba(255,255,255,.55);margin-top:2px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.btn{min-height:48px;padding:0 20px;border-radius:999px;border:0;font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+.btn.p{background:var(--accent);color:#fff}
+.btn.g{background:rgba(255,255,255,.12);color:#fff}
+
+/* mileage */
+.mile{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
+.mile .card .old{font-size:14px;color:var(--ink-3);text-decoration:line-through}
+.mile .card .new{font-size:18px;font-weight:800;margin-top:6px;line-height:1.4}
+
+/* questions */
+.qs{display:grid;gap:12px;margin-top:22px;counter-reset:q}
+.q{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;background:var(--soft);border-radius:16px;padding:22px}
+.q .qn{font-size:32px;font-weight:900;color:var(--accent);line-height:1}
+.q b{display:block;font-size:13px;color:var(--ink-3);margin-bottom:2px}
+.q p{font-weight:700;font-size:clamp(17px,2.4vw,19px);line-height:1.5}
+
+/* dark question */
+.balmun{position:relative;margin-top:clamp(64px,11vw,128px);background:var(--dark) url(img/balmun.jpg) center right/cover no-repeat;color:#fff;min-height:min(92vh,820px);display:flex;align-items:center}
+.balmun::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.9) 0%,rgba(0,0,0,.65) 55%,rgba(0,0,0,.15) 100%)}
+.balmun .wrap{position:relative;width:100%}
+.balmun .label{color:#FF8A82}
+.balmun h2{font-size:clamp(32px,7vw,68px);line-height:1.22;font-weight:800;letter-spacing:-.03em;margin:16px 0 22px;max-width:760px}
+.balmun p{color:rgba(255,255,255,.75);max-width:520px}
+
+/* oyster */
+.oyster{padding:clamp(64px,11vw,128px) 0}
+.oyster .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,64px);align-items:center}
+.oyster figure{border-radius:24px;overflow:hidden;aspect-ratio:4/5}
+.oyster figure img{width:100%;height:100%;object-fit:cover}
+.oyster h2{font-size:var(--fs-h2);font-weight:800;letter-spacing:-.03em;line-height:1.25;margin:10px 0 22px}
+.tl{list-style:none;display:grid;gap:18px}
+.tl li{display:grid;grid-template-columns:28px 1fr;gap:12px}
+.tl li::before{content:counter(t);counter-increment:t;width:28px;height:28px;border-radius:50%;background:var(--ink-1);color:#fff;font-size:13px;font-weight:800;display:grid;place-items:center;margin-top:2px}
+.tl{counter-reset:t}
+.close-line{margin-top:28px;font-size:clamp(20px,3.2vw,26px);font-weight:800;line-height:1.45}
+.close-line b{color:var(--accent)}
+
+/* sources */
+.sources{background:var(--soft);padding:clamp(48px,8vw,80px) 0}
+details{background:#fff;border-radius:16px;padding:0 20px}
+summary{cursor:pointer;min-height:56px;display:flex;align-items:center;font-weight:700;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";margin-left:auto;font-size:20px;color:var(--ink-3)}
+details[open] summary::after{content:"−"}
+.srclist{list-style:none;display:grid;gap:12px;padding:4px 0 22px;font-size:14px;line-height:1.55}
+.srclist a{color:var(--ink-1);overflow-wrap:anywhere}
+footer{padding:40px 0 calc(40px + env(safe-area-inset-bottom));font-size:14px;color:var(--ink-3)}
+footer b{color:var(--ink-1);font-weight:900}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--ink-1);color:#fff;padding:12px 20px;border-radius:999px;font-weight:700;font-size:15px;opacity:0;pointer-events:none;transition:.25s;z-index:70}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.bar .fill{transition:none}html{scroll-behavior:auto}}
+
+/* responsive */
+@media (max-width:860px){
+  .hero .grid{grid-template-columns:1fr}
+  .hero figure{order:-1;aspect-ratio:16/11}
+  .part-head{grid-template-columns:1fr}
+  .part-head figure{aspect-ratio:16/9;order:-1}
+  .ladder{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .step{min-height:auto!important}
+  .trio,.mile{grid-template-columns:1fr}
+  .rx{grid-template-columns:1fr}
+  .work .three{grid-template-columns:1fr}
+  .oyster .grid{grid-template-columns:1fr}
+  .oyster figure{aspect-ratio:16/11}
+}
+@media (max-width:600px){
+  .brand{font-size:16px}
+  .shift{grid-template-columns:1fr;gap:8px}
+  .shift .arrow{transform:rotate(90deg);justify-self:center;line-height:1}
+  .vs{grid-template-columns:1fr}
+  .pair{grid-template-columns:1fr 1fr}
+  .def .r{grid-template-columns:1fr;gap:4px}
+  .def .r.h{display:none}
+  .def .k{font-size:13px;color:var(--ink-3)}
+  .cols3{grid-template-columns:1fr}
+  .balmun{background-position:72% center}
+  .balmun::before{background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.85) 60%,rgba(0,0,0,.92) 100%)}
+}
 </style>
 </head>
 <body>
+<div class="progress" id="progress"></div>
 
-<header class="hero"><div class="wrap">
-  <div class="tag">도서관 AI 특강 · 김덕진</div>
-  <h1>오늘 해보는 AI 실습 6가지</h1>
-  <p>키보드 없이, 스마트폰 마이크 버튼만 누르면 됩니다. 파란 상자를 누르면 문장이 복사돼요. 완벽하지 않아도 해보는게 시작입니다!</p>
-  <div class="progress">
-    <div class="num"><span id="doneN">0</span><small>/ 6 완료</small></div>
-    <div class="bar"><i id="barFill"></i></div>
-  </div>
-</div></header>
-
-<nav class="tabs"><div class="wrap">
-  <button class="tab on" data-t="now">1 지금 해보기</button>
-  <button class="tab" data-t="home">2 집에서 더</button>
-  <button class="tab" data-t="agent">3 심화 에이전트</button>
-  <button class="tab" data-t="mcp">4 MCP 연결</button>
-  <button class="tab" data-t="check">5 판별 요령</button>
-  <button class="tab" data-t="safe">6 안전 가이드</button>
-  <button class="tab" data-t="files">7 자료</button>
-</div></nav>
-
-<main class="main">
-
-<!-- ═══ 1 지금 해보기 ═══ -->
-<section class="panel on" id="p-now">
-  <p class="lead"><b>준비:</b> 챗GPT·제미나이·클로드 중 하나를 열고 <b>마이크(🎤) 버튼</b>을 찾으세요. 앱이 없으면 아래 무료 링크로 들어가면 됩니다. 쉬운 것부터 시작합니다.</p>
-
-  <div class="card" data-id="a1">
-    <div class="head"><div class="step">1</div><div><h3>찍고 올리고 물어보기</h3><div class="app">가장 쉬운 시작 · 타이핑 없음</div></div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">아무거나 사진 찍고 이렇게</div><div class="txt">이 사진에 뭐라고 써 있는지 큰 글씨로 정리해줘. 내가 꼭 알아야 할 것 세 가지만 먼저 말해줘.</div><div class="hint">누르면 복사</div></div>
-    <div class="tip"><b>뭘 찍을까:</b> 약봉투 · 안내문 · 고지서 · 외국어 메뉴판 · 꽃이나 나무 · 아이 알림장. <b>사진 한 장이 곧 질문</b>이 됩니다. 찍을 게 없으면 6번 자료 탭에서 샘플 사진을 내려받으세요.</div>
-    <button class="done" onclick="dn(this)">완료 표시</button>
-  </div>
-
-  <div class="card" data-id="a2">
-    <div class="head"><div class="step">2</div><div><h3>추석 인사 그림 만들기</h3><div class="app">말로 그리고, 말로 고친다</div></div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">① 먼저 이렇게</div><div class="txt">추석 인사 카드에 쓸 그림을 그려줘. 보름달과 송편, 한복 입은 가족이 함께 있는 따뜻한 느낌으로. 그림 위에 "풍성한 한가위 되세요"라고 한글로 크게 써줘.</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">② 마음에 안 들면 말로 고치기: 이게 핵심</div><div class="txt">달을 더 크게 하고, 색은 더 따뜻하게 바꿔줘.</div><div class="hint">누르면 복사</div></div>
-    <div class="tip"><b>바꿔보기:</b> "수채화풍으로" · "귀여운 그림책 느낌으로" · "우리 동네 바다가 배경으로".<br><b>한글이 깨지면</b> "글자 없이 그림만 다시 그려줘"라고 하고 문구는 직접 넣으세요. 무료 계정은 하루 생성 횟수 제한이 있습니다.<br><b>완성하면</b> 가족 단톡방에 바로 보내보세요.</div>
-    <button class="done" onclick="dn(this)">완료 표시</button>
-  </div>
-
-  <div class="card" data-id="a3">
-    <div class="head"><div class="step">3</div><div><h3>역할 주기: 나만의 비서 만들기</h3><div class="app">한 문장만 바꾸면 답이 달라집니다</div></div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">이렇게 말해보세요</div><div class="txt">너는 우리 동네 모임을 도와주는 비서야. 이번 주 토요일 오전 10시 산책 모임 안내문을 써줘. 준비물이랑 모이는 곳도 넣고, 어르신도 읽기 쉽게 짧게.</div><div class="hint">누르면 복사</div></div>
-    <div class="tip"><b>포인트:</b> "너는 ~야"라고 <b>역할</b>을 주는 순간 답의 수준이 달라집니다. 학부모는 "너는 초등학교 선생님이야", 학생은 "너는 공부를 도와주는 선배야"로 바꿔보세요.</div>
-    <button class="done" onclick="dn(this)">완료 표시</button>
-  </div>
-
-  <div class="card" data-id="a4">
-    <div class="head"><div class="step">4</div><div><h3>생활 속 궁금한 것 물어보기</h3><div class="app">쉬운 말로 풀어달라고 하기</div></div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">예시: 상황을 그냥 말하면 됩니다</div><div class="txt">윗집 소음 때문에 몇 달째 힘들어. 어느 정도면 층간소음으로 인정받는지, 내가 도움을 청할 수 있는 곳이 어디인지 쉬운 말로 알려줘. 근거가 되는 규정 이름도 같이.</div><div class="hint">누르면 복사</div></div>
-    <div class="tip"><b>바꿔서 물어보기:</b> "전세 계약이 끝나가는데 더 살고 싶어" · "아이가 아르바이트비를 못 받았대" · "중고거래로 산 물건이 불량인데 환불이 되나".<br><b>중요:</b> AI 답은 <b>출발점</b>입니다. 실제 분쟁이 되면 대한법률구조공단(국번없이 132)이나 시·군청 무료 법률상담을 이용하세요.</div>
-    <button class="done" onclick="dn(this)">완료 표시</button>
-  </div>
-
-  <div class="card" data-id="a5">
-    <div class="head"><div class="step">5</div><div><h3>반대 근거 시키기</h3><div class="app">AI 답이 나온 직후에</div></div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">방금 답한 AI에게 이어서</div><div class="txt">방금 답한 내용 중에 확실하지 않은 부분을 표시해줘. 그리고 반대 의견이나 반대 근거가 있다면 그것도 말해줘.</div><div class="hint">누르면 복사</div></div>
-    <div class="tip"><b>왜:</b> AI는 내 말에 맞춰주려는 성향이 있고, 틀려도 당당합니다. <b>"반대 근거도 말해봐"</b>는 AI를 잘 쓰는 사람의 첫 번째 버릇입니다.</div>
-    <button class="done" onclick="dn(this)">완료 표시</button>
-  </div>
-
-  <div class="card" data-id="a6">
-    <div class="head"><div class="step">6</div><div><h3>말로 만드는 미니 앱</h3><div class="app">코딩 없이 · 챗GPT 캔버스</div></div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">이렇게 말해보세요</div><div class="txt">추석 차례상 장보기 목록을 체크할 수 있는 간단한 웹페이지를 만들어줘. 품목을 직접 추가하고, 다 사면 체크해서 지울 수 있고, 남은 개수가 위에 크게 보이게. 어르신도 보기 쉽게 글씨는 크게. 캔버스로 만들어줘.</div><div class="hint">누르면 복사</div></div>
-    <div class="tip"><b>이어서 시켜보기:</b> "예산도 입력해서 남은 돈이 보이게 해줘" · "색을 더 밝게" · "글씨를 더 크게".<br>코딩을 한 줄도 몰라도 됩니다. 원하는 걸 말하면 화면이 만들어지고, 또 말하면 고쳐집니다. 이걸 <b>바이브코딩</b>이라고 부릅니다.</div>
-    <button class="done" onclick="dn(this)">완료 표시</button>
-  </div>
-
-  <div class="section-h">앱이 없다면 (모두 무료)</div>
-  <div class="links">
-    <a href="https://chatgpt.com" target="_blank">챗GPT</a>
-    <a href="https://gemini.google.com" target="_blank">제미나이</a>
-    <a href="https://claude.ai" target="_blank">클로드</a>
-  </div>
-</section>
-
-<!-- ═══ 2 집에서 더 ═══ -->
-<section class="panel" id="p-home">
-  <p class="lead">오늘 못 한 건 여기서. <b>나에게 맞는 것 하나만</b> 열어보세요.</p>
-
-  <div class="acc">
-    <button onclick="tg(this)">부모님: 아이와 함께 쓰기 <span>5가지 · 발문</span></button>
-    <div class="body">
-      <p>핵심은 '함께'입니다. 금지가 아니라 <b>함께 정한 규칙</b>. 기술 교육이 아니라 <b>대화 교육</b>입니다.</p>
-      <ul>
-        <li><b>같이 질문하기</b>: 저녁 식탁에서 궁금한 걸 AI에게 함께 물어보기</li>
-        <li><b>팩트체크 놀이</b>: AI 답이 맞는지 같이 확인하기</li>
-        <li><b>AI 틀리게 만들기</b>: AI가 틀리는 지점을 찾는 게임</li>
-        <li><b>AI vs 나</b>: 같은 주제로 각자 써보고 비교·토론</li>
-        <li><b>먼저 생각, 그다음 AI</b>: 내 생각을 먼저 쓴 뒤 AI로 다듬기</li>
-      </ul>
-      <div class="say" onclick="cp(this)"><div class="lbl">발문 연습: 생각을 여는 질문 만들기</div><div class="txt">초등학생 아이와 같이 보고 있어. "프랑스 수도가 어디야?" 같은 정답 질문 말고, "수도는 왜 늘 나라 한가운데에 있지 않을까?"처럼 생각을 여는 질문을 우리 아이 나이에 맞게 5개 만들어줘. 답은 주지 말고 질문만.</div><div class="hint">누르면 복사</div></div>
-      <div class="say" onclick="cp(this)"><div class="lbl">숙제: 답을 대신 해주지 않게 시키기</div><div class="txt">너는 우리 아이의 공부 파트너야. 절대 답을 바로 알려주지 말고, 아이가 스스로 풀 수 있게 힌트를 한 단계씩만 줘. 아이가 답을 말하면 맞는지 확인하고 왜 그런지 물어봐줘.</div><div class="hint">누르면 복사</div></div>
-      <p>가정 내 원칙 4가지: <b>30초 먼저 생각 · 그대로 베끼지 않기 · 한 번 더 확인 · 사용 시간 정하기</b></p>
-    </div>
-  </div>
-
-  <div class="acc">
-    <button onclick="tg(this)">학생: 답 말고 실력이 남게 <span>공부 · 진로</span></button>
-    <div class="body">
-      <p>AI로 숙제를 '끝내는' 건 쉽습니다. 문제는 <b>내 실력이 남느냐</b>. 잘 쓰는 사람일수록 AI 답을 '출발점'으로만 씁니다.</p>
-      <div class="say" onclick="cp(this)"><div class="lbl">AI vs 나: 글쓰기 대결</div><div class="txt">'우리 동네에 필요한 것'이라는 주제로 내가 먼저 5줄 쓸게. 그다음 너도 5줄 써줘. 그리고 둘을 비교해서 내 글의 좋은 점 2개, 고치면 좋을 점 2개를 말해줘. 내 글: (여기에 붙여넣기)</div><div class="hint">누르면 복사</div></div>
-      <div class="say" onclick="cp(this)"><div class="lbl">모르는 걸 끝까지 이해하기</div><div class="txt">나는 중학생이야. 이 내용이 이해가 안 돼. 초등학생도 알 수 있게 비유를 들어 설명해주고, 내가 제대로 이해했는지 확인하는 질문을 3개 해줘. 내용: (여기에 붙여넣기)</div><div class="hint">누르면 복사</div></div>
-      <div class="say" onclick="cp(this)"><div class="lbl">독서: 읽은 책 정리하기</div><div class="txt">방금 읽은 책 내용을 내가 말해볼게. 다 듣고 나서 내가 놓친 부분이 있으면 짚어주고, 이 책과 이어서 읽으면 좋을 책을 이유와 함께 3권 추천해줘.</div><div class="hint">누르면 복사</div></div>
-    </div>
-  </div>
-
-  <div class="acc">
-    <button onclick="tg(this)">어르신: 말과 사진이면 충분합니다 <span>음성 · 큰 글씨</span></button>
-    <div class="body">
-      <p>AI는 어르신께 오히려 유리합니다. <b>키보드가 필요 없습니다.</b></p>
-      <ul>
-        <li>앱을 열고 <b>마이크 그림</b>을 눌러 말합니다. 끝나면 다시 누릅니다.</li>
-        <li>답이 작으면 <b>"큰 글씨로 다시 말해줘"</b>라고 하면 됩니다.</li>
-        <li>소리로 듣고 싶으면 스피커 그림을 누르거나 <b>"읽어줘"</b>라고 합니다.</li>
-      </ul>
-      <div class="say" onclick="cp(this)"><div class="lbl">처음 해보는 말</div><div class="txt">나는 일흔 살이고 스마트폰이 아직 서툴러. 앞으로 내가 물어보면 짧고 쉬운 말로, 어려운 단어 없이 대답해줘.</div><div class="hint">누르면 복사</div></div>
-      <div class="say" onclick="cp(this)"><div class="lbl">병원·약</div><div class="txt">(약봉투 사진 찍고) 이 약들을 언제 어떻게 먹어야 하는지 아주 쉽게 알려줘. 같이 먹으면 안 되는 게 있는지도. 그런데 정확한 건 약사님께 확인하라고 꼭 말해줘.</div><div class="hint">누르면 복사</div></div>
-      <div class="say" onclick="cp(this)"><div class="lbl">가족에게 보낼 글</div><div class="txt">손주 생일에 보낼 짧은 축하 문자를 써줘. 따뜻하게, 세 줄로.</div><div class="hint">누르면 복사</div></div>
-    </div>
-  </div>
-
-  <div class="acc">
-    <button onclick="tg(this)">생활: 매일 쓰는 것들 <span>가계부 · 여행 · 정리</span></button>
-    <div class="body">
-      <div class="say" onclick="cp(this)"><div class="lbl">장보기·가계부 정리</div><div class="txt">(표 파일을 올리고) 이 표를 읽고 총액이 얼마인지, 어디에 돈이 가장 많이 들었는지 알려줘. 그리고 입력이 잘못된 것 같은 항목이 있으면 짚어줘.</div><div class="hint">누르면 복사</div></div>
-      <div class="say" onclick="cp(this)"><div class="lbl">여행 계획 짜기</div><div class="txt">가족 넷이 1박 2일로 가까운 바다에 다녀오려고 해. 초등학생 아이가 있고 운전은 내가 해. 무리하지 않는 일정으로 시간대별 계획을 짜주고, 예상 비용도 대략 알려줘.</div><div class="hint">누르면 복사</div></div>
-      <div class="say" onclick="cp(this)"><div class="lbl">냉장고 털기</div><div class="txt">(냉장고 사진 찍고) 이 재료들로 오늘 저녁에 만들 수 있는 요리를 세 가지 추천해줘. 조리 시간이 짧은 것부터, 만드는 법도 간단히.</div><div class="hint">누르면 복사</div></div>
-      <div class="say" onclick="cp(this)"><div class="lbl">모임 회비 정산</div><div class="txt">(명단 파일을 올리고) 이 명단에서 아직 회비를 안 낸 사람이 누구인지, 모인 금액이 얼마인지 정리해줘. 그리고 미납자에게 보낼 정중한 안내 문자를 짧게 써줘.</div><div class="hint">누르면 복사</div></div>
-    </div>
-  </div>
-  <div class="acc">
-    <button onclick="tg(this)">직장인: 회사 일에 써보기 <span>보고서 · 메일 · 회의</span></button>
-    <div class="body">
-      <p>핵심은 <b>AI에게 초안을 맡기고, 내가 고치는 것</b>입니다. 처음부터 쓰는 시간이 확 줄어듭니다.</p>
-      <div class="say" onclick="cp(this)"><div class="lbl">보고서 초안: 형식까지 정해주기</div><div class="txt">이 자료로 팀장님 보고용 한 장 초안을 써줘. 구성은 현황 → 문제 → 대안 세 가지 → 추천안 순서로. 숫자마다 근거를 붙이고, 자료에 없는 내용을 넣었다면 [추정]이라고 표시해줘.</div><div class="hint">누르면 복사</div></div>
-      <div class="say" onclick="cp(this)"><div class="lbl">메일: 어렵게 거절하거나 부탁할 때</div><div class="txt">거래처에 일정 연기를 요청하는 메일을 써줘. 우리 쪽 사정으로 2주가 더 필요한 상황이야. 정중하지만 변명처럼 보이지 않게, 대안 일정을 함께 제시하는 형식으로. 10줄 이내로.</div><div class="hint">누르면 복사</div></div>
-      <div class="say" onclick="cp(this)"><div class="lbl">회의록 → 할 일 정리</div><div class="txt">(회의 메모나 녹취록을 붙여넣고) 이걸 정리해줘. 1) 결정된 것 2) 아직 정해지지 않은 것 3) 할 일 표(담당자·기한 포함) 4) 내가 다음 회의 전에 확인해야 할 것. 순서대로.</div><div class="hint">누르면 복사</div></div>
-      <div class="say" onclick="cp(this)"><div class="lbl">표·데이터 정리</div><div class="txt">(엑셀이나 표 파일을 올리고) 이 표에서 눈에 띄는 특징 세 가지를 숫자를 근거로 알려줘. 입력이 잘못된 것 같은 항목이 있으면 짚어주고, 보고에 쓸 한 줄 요약도 만들어줘.</div><div class="hint">누르면 복사</div></div>
-      <div class="say" onclick="cp(this)"><div class="lbl">긴 문서 빨리 파악하기</div><div class="txt">(문서를 올리고) 이 문서에서 내가 꼭 알아야 할 것 다섯 가지만 뽑아줘. 그리고 우리에게 불리하거나 놓치면 손해 보는 조건이 있으면 따로 표시해줘.</div><div class="hint">누르면 복사</div></div>
-      <p><b>보안은 꼭 지키세요.</b> 회사가 승인한 도구와 계정으로만 쓰고, 고객 정보·비공개 문서는 넣지 않습니다. 필요하면 이름은 <b>A씨</b>로 바꿔서 넣으세요. 자세한 건 6번 안전 가이드에.</p>
-    </div>
-  </div>
-
-</section>
-
-<!-- ═══ 3 심화 에이전트 ═══ -->
-<section class="panel" id="p-agent">
-  <p class="lead">여기부터는 <b>관심 있는 분만</b> 천천히 따라 해보세요. 강의에서 잠깐 보여드린 것들을 순서대로 적어뒀습니다. 급할 것 없습니다.</p>
-
-  <div class="card">
-    <div class="head"><div class="step">A</div><div><h3>에이전트: 일을 통째로 맡기기</h3><div class="app">여러 단계를 한 번에</div></div></div>
-    <div class="tip"><b>차이가 뭘까:</b> "총액이 얼마야?"는 <b>하나만</b> 답합니다. 아래처럼 시키면 AI가 <b>읽고 → 찾아내고 → 만들기</b>까지 스스로 밟습니다. 이게 에이전트입니다.</div>
-    <div class="say" onclick="cp(this)"><div class="lbl">① 표 파일을 올리고: 세 가지를 한 번에</div><div class="txt">이 표를 분석해줘. 순서대로 세 가지를 해줘.
-1) 총액과 분류별 합계를 표로 정리
-2) 돈이 과하게 들어간 항목과 입력이 잘못된 것 같은 항목을 근거와 함께 짚어줘
-3) 가족에게 공유할 짧은 정산 메시지 초안까지 써줘</div><div class="hint">누르면 복사</div></div>
-    <div class="tip">6번 자료 탭의 <b>추석 장보기 표</b>로 해보세요. 일부러 이상한 항목을 하나 숨겨뒀습니다. AI가 찾아내는지 보세요.</div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">B</div><div><h3>AI가 나에게 먼저 묻게 하기</h3><div class="app">가장 쉬운 고급 기술</div></div></div>
-    <div class="tip">일을 시키기 전에 <b>AI가 나에게 질문하게</b> 만들면, 결과가 내 상황에 훨씬 잘 맞습니다. 어떤 요청 뒤에든 이 한 문장만 붙이면 됩니다.</div>
-    <div class="say" onclick="cp(this)"><div class="lbl">이 문장을 요청 뒤에 붙이세요</div><div class="txt">~하고 싶어. 그런데 실행하기 전에 나에게 물어볼 게 있다면 먼저 물어본 뒤에 답변해.</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">예시: 동네 행사 기획</div><div class="txt">우리 아파트 가을 나눔장터를 기획하고 싶어. 그런데 실행하기 전에 나에게 물어볼 게 있다면 먼저 물어본 뒤에 답변해.</div><div class="hint">누르면 복사</div></div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">C</div><div><h3>여러 번 고쳐가며 완성하기</h3><div class="app">한 번에 끝내려 하지 않기</div></div></div>
-    <div class="tip">AI를 잘 쓰는 사람은 <b>한 번에 끝내지 않습니다.</b> 초안을 받고, 고쳐달라고 하고, 또 고칩니다. 대화 한 번이 아니라 <b>대화 여러 번</b>이 비결입니다.</div>
-    <div class="say" onclick="cp(this)"><div class="lbl">1단계: 초안</div><div class="txt">동네 도서관에서 열 독서 모임 안내문을 써줘.</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">2단계: 구체화</div><div class="txt">좋아. 그런데 참가 대상이 초등학생 자녀를 둔 부모님이야. 그 분들 마음에 와닿게 다시 써주고, 꼭 들어가야 할 정보가 빠진 게 있으면 알려줘.</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">3단계: 다듬기</div><div class="txt">조금 길어. 절반 길이로 줄이고, 제목을 눈에 띄게 세 가지 안으로 제안해줘.</div><div class="hint">누르면 복사</div></div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">D</div><div><h3>자료를 읽히고 물어보기</h3><div class="app">긴 문서도 한 번에</div></div></div>
-    <div class="tip">PDF·사진·표 파일을 올린 뒤 물어보면, AI가 그 안에서 답을 찾습니다. 인터넷 검색보다 <b>틀릴 확률이 낮습니다</b>. 올린 자료 안에서만 답하니까요.</div>
-    <div class="say" onclick="cp(this)"><div class="lbl">긴 안내문·약관 읽히기</div><div class="txt">(파일을 올리고) 이 문서에서 내가 꼭 알아야 할 것 다섯 가지만 뽑아줘. 그리고 놓치면 손해 보는 조건이 있으면 따로 표시해줘.</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">설문·명단 같은 표 분석</div><div class="txt">(표 파일을 올리고) 이 자료를 분석해서 눈에 띄는 특징 세 가지를 알려줘. 숫자를 근거로 말해주고, 확실하지 않은 건 표시해줘.</div><div class="hint">누르면 복사</div></div>
-  </div>
-</section>
-
-
-<!-- ═══ 4 MCP 연결 ═══ -->
-<section class="panel" id="p-mcp">
-  <p class="lead">AI에게 <b>공공 데이터베이스를 직접 연결</b>하는 방법입니다. 조금 어렵지만, 한 번 해두면 AI가 <b>지어내지 않고 실제 자료를 보고</b> 답합니다.</p>
-
-  <div class="card">
-    <div class="head"><div class="step">?</div><div><h3>MCP가 뭔가요</h3><div class="app">한 문장으로</div></div></div>
-    <div class="tip"><b>AI에게 전문 자료실 열쇠를 주는 것</b>입니다.<br><br>지금까지 AI는 배운 내용으로만 답했습니다. 그래서 법령 조문이나 통계 숫자를 <b>그럴듯하게 지어내는</b> 일이 있었죠. MCP를 연결하면 AI가 <b>법제처·국가통계 같은 원본을 직접 열어보고</b> 답합니다. 없으면 "없다"고 말합니다.<br><br>정식 이름은 Model Context Protocol. 어느 AI에나 꽂을 수 있는 <b>표준 규격</b>이라 한 번 만들어진 자료실은 여러 AI에서 같이 쓸 수 있습니다.</div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">1</div><div><h3>어떤 AI에서 되나요: 먼저 확인</h3><div class="app">2026년 9월 기준</div></div></div>
-    <div class="tip">
-      <b>클로드: 가장 쉽고, 무료 계정도 됩니다</b> ✅<br>
-      무료·Pro·Max·팀 플랜 모두 지원. 단 <b>무료는 1개만</b> 연결할 수 있습니다. 일반인이라면 여기서 시작하세요.<br><br>
-      <b>챗GPT: Plus·Pro면 됩니다. 설정을 한 번 켜야 해요</b> ⚠️<br>
-      <b>무료 계정은 안 되고</b>, Plus·Pro·Business·Enterprise는 <b>'개발자 모드'</b>를 켜면 연결할 수 있습니다. 많이 쓰시는 Plus(월 20달러)면 가능합니다. 방법은 바로 아래 3번에.<br><br>
-      <b>제미나이: 일반 앱에서는 안 됩니다</b> ❌<br>
-      Gemini CLI(개발자용 터미널)나 기업용 버전에서만 됩니다. 스마트폰·웹의 제미나이 앱에는 커스텀 연결 기능이 없습니다.
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">2</div><div><h3>클로드에 연결하기: 5분</h3><div class="app">가장 권장하는 방법</div></div></div>
-    <div class="tip">
-      <b>①</b> claude.ai에 로그인 (PC 브라우저에서 하세요. 모바일에서는 추가가 안 됩니다)<br>
-      <b>②</b> 좌측 하단 프로필 → <b>설정</b> → <b>커넥터</b><br>
-      <b>③</b> <b>커스텀 커넥터 추가</b> 를 누릅니다<br>
-      <b>④</b> 이름과 <b>서버 URL</b>을 넣습니다 (아래 4번에서 복사)<br>
-      <b>⑤</b> 추가 후 <b>연결</b>을 누르고 권한을 승인합니다<br>
-      <b>⑥</b> 대화창에서 도구 아이콘을 눌러 <b>켜져 있는지</b> 확인<br><br>
-      한 번 등록하면 <b>스마트폰 클로드 앱에서도 그대로 쓸 수 있습니다.</b> (추가만 PC에서)
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">3</div><div><h3>챗GPT에 연결하기: 개발자 모드</h3><div class="app">Plus·Pro 이상 · PC 웹에서</div></div></div>
-    <div class="tip">
-      <b>① 개발자 모드 켜기</b><br>
-      프로필 → <b>설정</b> → <b>커넥터</b> → <b>고급</b>(Advanced) → <b>개발자 모드</b> 켜기<br>
-      <span style="color:var(--muted)">※ 이 메뉴가 안 보이면 무료 계정이거나, 회사 계정에서 관리자가 막아둔 경우입니다.</span><br><br>
-      <b>② 커넥터(앱) 만들기</b><br>
-      같은 커넥터 화면에서 <b>앱 만들기</b> 또는 <b>+</b> 를 누르고 아래를 입력합니다.<br>
-      · 이름: 예) 법령<br>
-      · 서버 URL: 아래 4번에서 복사해 붙여넣기<br>
-      · 인증: <b>No Authentication (인증 없음)</b> 선택 ← 아래 서버들은 로그인이 필요 없습니다<br>
-      · 위험을 이해했다는 <b>동의 체크</b> 후 만들기<br><br>
-      <b>③ 대화에서 불러 쓰기</b><br>
-      새 대화 → 입력창의 <b>＋</b> 메뉴 → <b>개발자 모드</b>(또는 더보기) → 방금 만든 앱 선택<br>
-      처음 쓸 때 승인 창이 뜨고, 도구를 실제로 쓸 때 한 번 더 확인을 요청합니다.<br><br>
-      <b>안 될 때 두 가지만 확인</b><br>
-      · URL 끝에 <b>슬래시(/)가 붙어 있지 않은지</b>. 붙으면 실패할 수 있습니다<br>
-      · 앱을 만든 뒤 <b>새 대화</b>를 열었는지. 기존 대화에서는 안 보입니다
-    </div>
-    <div class="tip" style="margin-top:12px"><b>중요: 개인 플랜이면 꼭 알아두세요.</b> 무료·Plus·Pro에서는 <b>'모두를 위한 모델 개선'이 켜져 있으면 커넥터로 읽은 정보도 학습에 쓰일 수 있습니다.</b> 6번 안전 가이드의 첫 번째 설정을 먼저 끄고 쓰세요. (Business·Enterprise·Edu는 학습에 쓰지 않습니다)<br><br><b>음성 모드에서는 커넥터가 작동하지 않습니다</b>. 텍스트 대화에서만 됩니다.</div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">4</div><div><h3>연결해볼 공공 자료실 5곳</h3><div class="app">모두 무료 · 회원가입 없음</div></div></div>
-    <div class="tip">광진구청에 근무하는 한 공무원이 만들어 <b>무료로 공개</b>한 서버들입니다. 아래 주소를 그대로 복사해 넣으면 됩니다.</div>
-    <div class="say" onclick="cp(this)"><div class="lbl">법령: 법제처 법령·판례·우리 동네 조례</div><div class="txt">https://mcp.gomdori.app/law</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">통계: 국가통계(KOSIS) 인구·가구·물가</div><div class="txt">https://mcp.gomdori.app/stats</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">건축물대장: 부동산·집 정보</div><div class="txt">https://mcp.gomdori.app/archhub</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">학교정보: 학교 공시 자료</div><div class="txt">https://mcp.gomdori.app/school</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">특허·상표</div><div class="txt">https://mcp.gomdori.app/patent</div><div class="hint">누르면 복사</div></div>
-    <div class="tip"><b>무료 계정은 1개만</b> 연결됩니다. 가장 쓸 것 같은 하나를 고르세요. 생활에 제일 요긴한 건 <b>법령</b>입니다.</div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">📖</div><div><h3>법령: 생활 속 궁금증 풀기</h3><div class="app">연결 후 이렇게 물어보세요</div></div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">층간소음</div><div class="txt">윗집 소음 때문에 몇 달째 힘들어. 법에서 정한 층간소음 기준이 낮과 밤에 각각 어떻게 되는지, 근거 규정 이름과 조문 번호를 붙여서 알려줘. 그리고 내가 도움을 청할 수 있는 공공 서비스도 찾아줘.</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">전월세: 계약이 끝나가는데</div><div class="txt">전세 계약이 곧 끝나는데 집주인이 나가라고 해. 내가 계속 살 수 있는 권리가 있는지, 있다면 언제까지 어떻게 통지해야 하는지 조문과 함께 알려줘. 보증금을 지키려면 뭘 해둬야 하는지도.</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">아르바이트: 임금을 못 받았을 때</div><div class="txt">아이가 카페에서 3주만 일하고 그만뒀는데 월급을 안 준대. 한 달을 못 채우면 못 받는 건지, 주휴수당은 받을 수 있는지 근거 조문과 함께 알려줘. 어디에 신고할 수 있는지도.</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">우리 동네 조례: 이게 MCP의 진짜 강점</div><div class="txt">우리 지역의 반려동물 관련 조례와 생활폐기물 배출 관련 조례를 찾아줘. 우리 동네에만 적용되는 규정이 따로 있는지, 위반하면 어떻게 되는지 조문과 함께 알려줘. 지역: (여기에 시·군·구 쓰기)</div><div class="hint">누르면 복사</div></div>
-    <div class="tip"><b>왜 조례가 강점인가:</b> 조례는 지역마다 달라서 일반 검색으로는 찾기 어렵습니다. AI가 우리 동네 조례를 직접 뒤져주는 건 MCP 없이는 거의 안 됩니다.</div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">📊</div><div><h3>통계: 숫자로 확인하기</h3></div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">우리 동네는 어떤 동네일까</div><div class="txt">우리 지역의 1인가구 비율과 65세 이상 인구 비율을 찾아줘. 전국 평균이나 같은 시·도의 다른 지역과 비교하면 어느 수준인지, 최근 몇 년간 어떻게 변해왔는지도. 숫자마다 통계표 이름과 기준 연도를 꼭 붙여줘. 지역: (여기에 쓰기)</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">체감이 맞는지 확인하기</div><div class="txt">요즘 물가가 많이 오른 것 같은데 실제 통계로는 어떤지 확인해줘. 최근 몇 년간 소비자물가 변화를 품목별로 보여주고, 특히 많이 오른 것과 덜 오른 것을 구분해줘. 출처와 기준 시점을 꼭 붙여줘.</div><div class="hint">누르면 복사</div></div>
-    <div class="tip"><b>통계 기관명이 바뀌었습니다</b>. 통계청이 <b>국가데이터처</b>로 개편됐습니다. AI가 옛 이름으로 답할 수 있습니다.</div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">🏠</div><div><h3>건축물대장: 이사 갈 집 확인하기</h3><div class="app">전월세·매매 계약 전에</div></div></div>
-    <div class="tip">주소만 넣으면 <b>그 건물의 공식 기록</b>을 봅니다. 언제 지었는지, 무슨 용도로 허가받았는지, 주차 대수는 몇 대인지. <b>계약 전에 확인하면 좋은 것들</b>입니다.</div>
-    <div class="say" onclick="cp(this)"><div class="lbl">계약 전 집 확인</div><div class="txt">이 주소 건물의 건축물대장 정보를 찾아줘. 언제 사용승인을 받았는지, 주용도가 무엇인지, 구조와 규모, 주차 대수, 용도지역을 정리해줘. 그리고 내가 전세 계약 전에 눈여겨봐야 할 점이 있으면 알려줘. 주소: (여기에 쓰기)</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">주용도와 실제 용도가 다른지</div><div class="txt">이 주소 건물의 허가받은 용도와 층별 현황을 알려줘. 주택으로 쓰이고 있는데 허가 용도가 다른 경우가 있는지 확인해줘. 주소: (여기에 쓰기)</div><div class="hint">누르면 복사</div></div>
-    <div class="tip"><b>주의:</b> 이 자료는 <b>참고용</b>입니다. 실제 계약은 등기부등본·중개사 확인이 반드시 필요합니다. 건축물대장과 등기부등본은 다른 서류입니다.</div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">🎒</div><div><h3>학교정보: 학부모용</h3></div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">아이 학교 살펴보기</div><div class="txt">이 학교의 공시 정보를 찾아줘. 학급당 학생 수, 교원 현황, 급식 운영, 방과후 프로그램 같은 걸 정리해주고 눈에 띄는 특징이 있으면 알려줘. 학교: (여기에 쓰기)</div><div class="hint">누르면 복사</div></div>
-  </div>
-
-  <div class="warnbox">
-    <h3>꼭 알아둘 세 가지</h3>
+<nav class="nav" aria-label="목차">
+  <div class="wrap">
+    <span class="brand">ITCL</span>
     <ul>
-      <li><b>무료 공개 서버라 혼잡할 수 있습니다.</b> 여러 사람이 동시에 쓰면 "요청이 많습니다" 오류가 납니다. 강의장에서 다 같이 누르면 거의 안 됩니다. <b>집에서 천천히</b> 해보세요.</li>
-      <li><b>연결한 AI는 그 자료실을 계속 볼 수 있습니다.</b> 내가 만든 게 아닌 서버를 연결할 때는 누가 만들었는지 확인하세요. 위 5곳은 공무원이 만들어 소스까지 공개한 것입니다.</li>
-      <li><b>MCP를 붙여도 최종 확인은 사람이 합니다.</b> 원본을 보고 답하니 훨씬 정확하지만, 중요한 결정은 조문 링크를 직접 눌러 확인하세요.</li>
+      <li><a href="#summary">한 문장</a></li>
+      <li><a href="#p1">에이전트 보스</a></li>
+      <li><a href="#p2">현장의 신호</a></li>
+      <li><a href="#p3">처방</a></li>
+      <li><a href="#work">해 보기</a></li>
+      <li><a href="#oyster">마무리</a></li>
     </ul>
   </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap grid">
+    <div>
+      <span class="label">2026 AI 융합산업 HRD 포럼 · 기조연설 복기</span>
+      <h1>에이전트 보스의 <em>시대</em></h1>
+      <p class="sub">AX 전환기, 산업 인재를 다시 설계하는 HRD</p>
+      <p class="meta">김덕진 · IT커뮤니케이션연구소(ITCL) 소장<br>2026. 10. 7.(수) · 코엑스 컨퍼런스룸 317호 · AI Week 2026 AI Festa 부대행사</p>
+      <div class="chips">
+        <a class="chip primary" href="#summary">3분 만에 다시 보기</a>
+        <a class="chip" href="#work">내 직무 3칸 나누기</a>
+      </div>
+    </div>
+    <figure><img src="img/cover.jpg" alt="여러 AI 에이전트에게 일을 맡기는 사람을 그린 일러스트" width="1000" height="1250" fetchpriority="high"></figure>
+  </div>
+</header>
+
+<section class="oneline" id="summary">
+  <div class="wrap">
+    <p class="kicker">오늘 강연을 한 문장으로</p>
+    <h2 class="rv">인재의 조건은<br><s>AI를 배우는 사람</s>에서<br><b>AI에게 일을 맡기고 책임지는 사람</b>으로 바뀌었습니다.</h2>
+    <div class="shift rv">
+      <div><small>예전</small><strong>"뭐뭐 알려줘"</strong></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div><small>이제</small><strong>"뭐뭐 해줘"</strong></div>
+    </div>
+    <p class="src">2026년 9월 29일 오픈AI는 컴퓨터를 꺼 둬도 대신 일하는 에이전트 '닷츠'를 발표했습니다. 검색의 시대, 대화의 시대를 지나 이제 위임의 시대입니다.</p>
+  </div>
 </section>
 
-<!-- ═══ 5 판별 요령 ═══ -->
-<section class="panel" id="p-check">
-  <p class="lead">AI는 <b>틀려도 당당합니다.</b> 세 가지만 기억하면 대부분 걸러집니다.</p>
+<!-- PART 1 -->
+<section class="part" id="p1">
+  <div class="wrap">
+    <div class="part-head rv">
+      <div>
+        <div class="pno">01</div>
+        <h2>에이전트 보스<br>배우는 사람에서 부리는 사람으로</h2>
+        <p>AI 팀원을 거느린 한 사람. 조직 입장에서 그 사람은 곧 한 팀입니다.</p>
+      </div>
+      <figure><img src="img/part1.jpg" alt="한 사람이 여러 AI 비서를 지휘하는 일러스트" loading="lazy" width="1000" height="1250"></figure>
+    </div>
 
-  <div class="rule"><div class="n">1</div><div><h3>할루시네이션: 그럴듯한 거짓</h3><p>숫자·날짜·사람 이름·법령 번호는 <b>반드시 원본과 대조</b>합니다. "출처 알려줘"라고 시키고, 링크가 실제로 열리는지 눌러보세요. 열리지 않는 링크는 지어낸 겁니다.</p></div></div>
-  <div class="rule"><div class="n">2</div><div><h3>아첨: 내 말에 맞춰준다</h3><p>내 의견을 먼저 말하면 AI는 동조하기 쉽습니다. <b>"반대 근거도 말해봐"</b>, <b>"이 답에서 틀릴 수 있는 부분은?"</b>을 습관처럼 붙이세요.</p></div></div>
-  <div class="rule"><div class="n">3</div><div><h3>초안이지 결론이 아니다</h3><p>잘 쓰는 사람일수록 AI 답을 '출발점'으로만 씁니다. 반대로 틀린 답도 그대로 따르면 스스로 생각하는 힘이 줄어듭니다. <b>최종 판단은 언제나 사람.</b></p></div></div>
+    <div class="block rv">
+      <span class="label">에이전트 보스란</span>
+      <h3>AI가 보스가 되는 게 아니라, 내가 AI를 거느리는 보스가 됩니다</h3>
+      <p>마이크로소프트가 붙인 이름입니다. AI 에이전트를 만들고, 일을 맡기고, 관리하는 사람. 조직도(Org Chart) 대신 일의 흐름도(Work Chart)로 조직을 다시 그리게 됩니다.</p>
+      <div class="stat"><span class="v num" data-count="15">15<span class="u">배</span></span><span class="t">1년 사이 늘어난 활성 AI 에이전트 수<br><span class="muted" style="font-weight:500;font-size:15px">대기업은 18배 · 10개국 2만 명 조사</span></span></div>
+      <p class="src">출처: Microsoft Work Trend Index 2026 (2026.5)</p>
+    </div>
 
-  <div class="card">
-    <div class="head"><div class="step">✓</div><div><h3>판별 프롬프트: 답이 나온 뒤 붙이기</h3></div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">3단 검증</div><div class="txt">방금 답에서 1) 확실한 사실 2) 추정 3) 확인이 필요한 것, 이렇게 셋으로 나눠서 다시 정리해줘. 그리고 각각 어디서 확인하면 되는지 기관이나 사이트 이름을 알려줘.</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">가짜 뉴스·사기 문자 의심될 때</div><div class="txt">(문자나 글을 붙여넣고) 이 내용이 사실인지, 사기나 가짜 뉴스의 특징이 있는지 살펴봐줘. 판단 근거를 말하고, 내가 직접 확인할 수 있는 공식 기관과 방법을 알려줘.</div><div class="hint">누르면 복사</div></div>
-  </div>
+    <div class="block rv">
+      <span class="label">직무의 이동</span>
+      <h3>직무는 사라지지 않고 위로 올라갑니다</h3>
+      <p>직업 이름은 그대로입니다. 품질 엔지니어는 여전히 품질 엔지니어예요. 그런데 하루에 하는 일의 위치가 올라갑니다. 위로 갈수록 사람에게는 판단과 책임이 남습니다.</p>
+      <div class="ladder">
+        <div class="step"><small>01</small><b>작성자</b><span>직접 만들며 AI의 도움을 받는다</span></div>
+        <div class="step"><small>02</small><b>편집자</b><span>의도를 주고 AI 초안을 고친다</span></div>
+        <div class="step"><small>03</small><b>감독자</b><span>기준을 정하고 일을 통째로 맡긴다</span></div>
+        <div class="step"><small>04</small><b>지휘자</b><span>여러 에이전트를 묶어 운영한다</span></div>
+      </div>
+      <p class="src">Author → Editor → Director → Orchestrator · 출처: Microsoft, How Frontier Firms are rebuilding the operating model (2026.5)</p>
+    </div>
 
-  <div class="warnbox">
-    <h3>이런 요청은 100% 사기입니다</h3>
-    <ul>
-      <li>"인증번호를 알려달라": 어떤 기관도 요구하지 않습니다</li>
-      <li>"가족인데 폰이 고장 나서" + 송금·인증 요청 → 반드시 <b>원래 번호로 직접 전화</b></li>
-      <li>문자 속 링크로 들어간 사이트에서 개인정보·계좌 입력</li>
-      <li>피해 의심 시 <b>112</b>(경찰) · <b>1332</b>(금융감독원) · 거래 은행 즉시 신고</li>
-    </ul>
-  </div>
-</section>
-
-<!-- ═══ 5 안전 가이드 ═══ -->
-<section class="panel" id="p-safe">
-  <p class="lead">AI를 <b>안전하게</b> 쓰는 법. 설정 몇 개만 알아두면 대부분 해결됩니다.</p>
-
-  <div class="card">
-    <div class="head"><div class="step">1</div><div><h3>내 대화를 학습에 쓰지 않게</h3><div class="app">한 번만 해두면 계속 적용</div></div></div>
-    <div class="tip"><b>가는 길:</b> 프로필 → <b>설정</b> → <b>데이터 제어</b> → "모두를 위한 모델 개선"을 <b>끄기</b>.<br><br>무료 계정은 기본적으로 대화가 모델 개선에 쓰일 수 있습니다. 이 스위치를 끄면 이후 대화는 학습에 사용되지 않습니다.</div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">2</div><div><h3>민감한 질문은 '임시 채팅'으로</h3><div class="app">대화창 위쪽 버튼 하나</div></div></div>
-    <div class="tip"><b>가는 길:</b> 새 대화 → 화면 위쪽 <b>임시 채팅</b> 켜기.<br><br>임시 채팅은 <b>대화 기록에 남지 않고, 메모리에 저장되지 않으며, 모델 학습에도 쓰이지 않습니다.</b> 건강·가족·돈 이야기처럼 남기고 싶지 않은 질문에 쓰세요.</div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">3</div><div><h3>AI가 나를 어떻게 기억하는지 확인하기</h3><div class="app">메모리 관리: 꼭 한 번 열어보세요</div></div></div>
-    <div class="tip">챗GPT는 대화를 하다 보면 <b>나에 대한 정보를 스스로 저장</b>합니다. 편리하지만, 무엇이 저장됐는지 <b>내가 알고 있어야</b> 합니다.<br><br><b>가는 길</b><br>· PC: 프로필 → 설정 → <b>개인 맞춤 설정</b> → <b>메모리 관리</b><br>· 모바일: 사이드바 위쪽 프로필 → 개인 맞춤 설정 → 메모리<br><br>여기서 저장된 항목을 <b>하나씩 확인하고 개별 삭제</b>하거나 <b>전체 삭제</b>할 수 있습니다.</div>
-    <div class="say" onclick="cp(this)"><div class="lbl">먼저 이렇게 물어보세요</div><div class="txt">지금 네가 나에 대해 기억하고 있는 내용을 전부 목록으로 보여줘.</div><div class="hint">누르면 복사</div></div>
-    <div class="tip"><b>기억하는 두 가지가 다릅니다</b><br>· <b>저장된 메모리</b>: "기억해줘"라고 했거나 AI가 알아서 저장한 것. 삭제 전까지 계속 반영됩니다.<br>· <b>채팅 기록 참조</b>: 지난 대화들을 참고하는 기능. 설정에서 따로 끌 수 있습니다.</div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">4</div><div><h3>기억을 고치거나 지우기</h3><div class="app">사실과 다르면 바로잡으세요</div></div></div>
-    <div class="tip">AI가 나를 <b>잘못 기억하고 있는 경우</b>가 생각보다 많습니다. 예전 직업, 예전에 살던 곳, 한 번 해본 취미를 계속 좋아한다고 알고 있는 식입니다. 그대로 두면 답이 계속 어긋납니다.</div>
-    <div class="say" onclick="cp(this)"><div class="lbl">틀린 기억 고치기</div><div class="txt">나에 대해 기억하고 있는 것 중에 사실과 다른 게 있어. (여기에 무엇이 틀렸는지 쓰기) 이건 지우고, 대신 (맞는 내용)으로 기억해줘.</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">특정 내용만 잊게 하기</div><div class="txt">나에 대해 기억하고 있는 것 중에 (내용)은 잊어줘. 앞으로 이건 기억하지 마.</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">일부러 기억시키기: 이건 편리합니다</div><div class="txt">앞으로 대화할 때 기억해줘. 나는 답을 짧고 쉬운 말로 받는 걸 좋아하고, 어려운 용어는 풀어서 설명해주면 좋겠어.</div><div class="hint">누르면 복사</div></div>
-    <div class="tip"><b>꼭 확인할 것:</b> AI가 "잊었습니다"라고 답해도 <b>실제로 지워졌는지 설정에서 확인</b>하세요. 말로만 그렇게 답하고 목록에는 남아 있는 경우가 있습니다.<br><br><b>채팅을 지워도 메모리는 남습니다.</b> 둘은 별개라서 메모리는 따로 지워야 합니다.</div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">5</div><div><h3>기억 기능을 아예 끄기</h3><div class="app">공용 기기·민감한 주제</div></div></div>
-    <div class="tip">설정 → 개인 맞춤 설정(또는 메모리)에서 <b>메모리 기능 자체를 끌 수 있습니다.</b> 끄면 새로운 내용이 저장되지 않습니다.<br><br><b>이럴 때 끄세요:</b> 가족과 계정을 같이 쓸 때 · 공용 PC에서 쓸 때 · 건강이나 돈 이야기를 많이 할 때.<br><br>잠깐만 안 남기고 싶다면 <b>임시 채팅</b>(위 2번)이 더 간편합니다.</div>
-  </div>
-
-  <div class="card">
-    <div class="head"><div class="step">6</div><div><h3>절대 입력하지 않는 것 5가지</h3><div class="app">한 번 넣으면 되돌리기 어렵습니다</div></div></div>
-    <div class="tip">
-      <b>①</b> 주민등록번호 · 여권번호 · 운전면허번호<br>
-      <b>②</b> 계좌번호 · 카드번호 · 비밀번호 · 인증번호<br>
-      <b>③</b> 남의 개인정보 (이름＋연락처＋주소가 함께 있는 명단)<br>
-      <b>④</b> 직장의 비공개 문서 · 내부 자료<br>
-      <b>⑤</b> 의료기록 · 진단서 등 민감정보 원본<br><br>
-      <b>대신 이렇게:</b> 이름은 <b>A씨</b>, 번호는 <b>010-0000-0000</b>으로 바꿔서 넣으세요. 문서는 개인정보를 지운 뒤 올립니다.
+    <div class="block rv">
+      <span class="label">가르쳐야 할 역량</span>
+      <h3>질문력에서 의뢰력으로</h3>
+      <p>프롬프트 시대가 '한 번 잘 묻기'였다면 에이전트 시대는 '일을 잘 맡기기'입니다. 신입사원에게 일을 주는 좋은 팀장의 조건과 똑같습니다.</p>
+      <div class="trio">
+        <div class="card"><b>문제 정의력</b><p>질문 대신 일감을 줍니다. 목표, 제약, 성공 기준을 분명히 합니다.</p></div>
+        <div class="card"><b>검수력</b><p>AI가 해 온 결과가 쓸 만한지 가려냅니다. 전문성의 가치는 이제 실행보다 감별에 있습니다.</p></div>
+        <div class="card"><b>위임의 판단력</b><p>어디까지 맡기고 어디서 사람이 확인할지 선을 긋습니다. 되돌릴 수 없는 일에는 승인 단계를 둡니다.</p></div>
+      </div>
+      <p class="quote">에이전트 시대에는 우리 모두가 1인 팀장이 됩니다. 부하 직원 자리에 사람 대신 AI가 앉을 뿐입니다.</p>
     </div>
   </div>
+</section>
 
-  <div class="card">
-    <div class="head"><div class="step">7</div><div><h3>계정 지키기</h3></div></div>
-    <div class="tip"><b>①</b> 비밀번호를 다른 사이트와 <b>다르게</b> 쓰기<br><b>②</b> 2단계 인증(2FA) 켜기 (설정 → 보안)<br><b>③</b> 공용 PC(도서관·주민센터)에서는 반드시 <b>로그아웃</b><br><b>④</b> 대화 속 링크나 광고를 누를 때는 주소를 한 번 더 확인하기</div>
+<!-- PART 2 -->
+<section class="part" id="p2">
+  <div class="wrap">
+    <div class="part-head rv">
+      <div>
+        <div class="pno">02</div>
+        <h2>현장의 신호<br>첫 계단, 숙련, 그리고 선택</h2>
+        <p>제조·ICT 현장에서 이미 보이는 변화입니다.</p>
+      </div>
+      <figure><img src="img/part2.jpg" alt="첫 계단이 사라진 철제 계단 앞에 선 신입 직원 일러스트" loading="lazy" width="1000" height="1250"></figure>
+    </div>
+
+    <div class="block rv">
+      <span class="label">스탠퍼드 카나리아 연구</span>
+      <h3>사라지는 건 직업이 아니라 경력의 첫 계단입니다</h3>
+      <div class="stat"><span class="v num">−<span data-count="13">13</span><span class="u">%</span></span><span class="t">AI 노출이 큰 직무에서 줄어든 22~25세 사회 초년생 고용</span></div>
+      <div class="pair">
+        <div class="mini"><div class="v">유지·증가</div><div class="t">같은 직무의 경력자 고용</div></div>
+        <div class="mini"><div class="v">자동화형</div><div class="t">감소가 몰린 직무. AI가 사람을 돕기보다 대신하는 일</div></div>
+      </div>
+      <p class="quote">자료 찾고, 요약하고, 초안 쓰는 일. AI가 가장 잘하는 일이 신입이 하던 일이었습니다. 그 칸이 빠지면 경력자는 어디서 나올까요?</p>
+      <p class="src">출처: Brynjolfsson·Chandar·Chen, Canaries in the Coal Mine?, Stanford Digital Economy Lab (2025.8)</p>
+    </div>
+
+    <div class="block rv">
+      <span class="label">한국형 카나리아 대시보드</span>
+      <h3>우리 정부도 재기 시작했습니다. 처방은 산업이 써야 합니다</h3>
+      <p>2026년 7월 9일 산업전환 고용안정 기본계획은 AI 전환·기후 위기·인구 감소를 '삼중 위기'로 보고, 일자리가 사라지고 생기는 흐름을 실시간으로 보는 대시보드를 만들기로 했습니다. 2030년까지 100만 명 이상 AI 직업훈련 계획도 이어집니다.</p>
+      <div class="def">
+        <div class="r h"><span></span><span>정부가 하는 일</span><span>산업 현장이 답해야 할 일</span></div>
+        <div class="r"><span class="k">측정</span><span class="old">어디서 줄어드는지 잰다</span><span class="new">줄어든 자리의 일을 무엇으로 바꿀지</span></div>
+        <div class="r"><span class="k">훈련</span><span class="old">훈련 인원을 늘린다</span><span class="new">훈련받은 사람이 무엇을 할 수 있어야 하는지</span></div>
+        <div class="r"><span class="k">배치</span><span class="old">위험 산업에 먼저 보낸다</span><span class="new">그 산업의 직무를 어떻게 다시 쪼갤지</span></div>
+      </div>
+      <p class="src">출처: 고용노동부 산업전환 고용안정 기본계획(2026.7.9), AI+ 역량 UP 프로젝트(2025.12)</p>
+    </div>
+
+    <div class="block rv">
+      <span class="label">제조 현장의 암묵지</span>
+      <h3>숙련공의 머릿속이 은퇴합니다</h3>
+      <p>불꽃 색만 보고 온도를 아는 감각. 매뉴얼로 못 적는 이 지식을 '암묵지'라고 부릅니다. 정부는 이를 AI로 남기는 사업을 시작했고(2026년 추경 480억 원, 2027년 예산안 2,900억 원), 9월 울산포럼 패널은 이렇게 진단했습니다.</p>
+      <div class="trio">
+        <div class="card"><b>재직자 전환이 먼저</b><p>수도권 AI 인재를 데려오기보다 제조 10년 차에게 데이터와 AI를 더했을 때 성과가 더 안정적이었다.</p></div>
+        <div class="card"><b>은퇴 전 5년이 골든타임</b><p>5년 안에 정년을 맞는 숙련공의 판단 기준은 지금 남기지 않으면 회수할 수 없다.</p></div>
+        <div class="card"><b>숙련공의 새 직무</b><p>데이터 라벨러가 아니라 AI 검증자, 공정 지식 큐레이터가 되어야 한다.</p></div>
+      </div>
+      <p class="src">출처: 헤럴드경제(2026.4.27), 산업부 2027 예산안, 2026 SK 울산포럼 세션1 패널 발언(2026.9.11)</p>
+    </div>
+
+    <div class="block rv">
+      <span class="label">같은 자동화, 정반대의 선택</span>
+      <h3>기술은 같습니다. 차이는 사람에 대한 선택에서 납니다</h3>
+      <div class="vs">
+        <div class="card"><h4>아마존</h4><dl>
+          <dt>방향</dt><dd>2033년까지 60만 명분 채용을 로봇으로 대신할 수 있다는 내부 문건 (NYT 보도, 아마존은 반박)</dd>
+          <dt>현장</dt><dd>물류센터 자동화</dd></dl></div>
+        <div class="card on"><h4>월마트</h4><dl>
+          <dt>방향</dt><dd>200만 명이 넘는 인력 규모를 앞으로 3년간 유지하겠다고 선언</dd>
+          <dt>현장</dt><dd>오픈AI 인증 과정을 직원에게 무료로 열고, 코딩을 모르는 직원이 사내 도구 '코드 퍼피'로 직접 앱과 에이전트를 만든다</dd></dl></div>
+      </div>
+      <p class="quote">"AI는 말 그대로 모든 일자리를 바꿀 겁니다." 월마트 CEO 더그 맥밀런</p>
+      <p class="src">출처: The New York Times 보도(2025.10), Fortune(2025.9.30), IT Brew(2026.6.12)</p>
+    </div>
+
+    <div class="block rv">
+      <span class="label">병목은 조직</span>
+      <h3>AI 성과를 가르는 건 개인보다 조직입니다</h3>
+      <p>마이크로소프트가 AI 성과를 가르는 요인을 분석했더니 조직 요인(문화·관리자·인재 운영)이 개인 요인보다 두 배 넘게 컸습니다. HRD는 변방의 지원 부서가 아니라 AI 전환의 한가운데에 있습니다.</p>
+      <div class="bars" data-bars>
+        <div class="bar main"><div class="row"><span>조직 요인</span><span class="num">67%</span></div><div class="track"><div class="fill" data-w="67"></div></div></div>
+        <div class="bar"><div class="row"><span>개인 요인</span><span class="num">32%</span></div><div class="track"><div class="fill" data-w="32"></div></div></div>
+      </div>
+      <p class="quote">가장 비싼 GPU를 사기 전에, 사람을 다루는 방식부터 손봐야 합니다.</p>
+      <p class="src">출처: Microsoft Work Trend Index 2026 (2026.5). 설명된 분산의 비중이며 인과 관계를 뜻하지는 않습니다.</p>
+    </div>
   </div>
 </section>
 
-<!-- ═══ 6 자료 ═══ -->
-<section class="panel" id="p-files">
-  <p class="lead">실습에 쓸 샘플 자료입니다. <b>내려받아 직접 올려보세요.</b></p>
-
-  <div class="card">
-    <div class="head"><div class="step">📷</div><div><h3>사진으로 물어보기</h3></div></div>
-    <div class="tip">찍을 게 마땅치 않으면 이 사진을 저장해서 올려보세요.</div>
-    <div class="links">
-      <a href="files/sample-prescription.png" download>약봉투 샘플</a>
-      <a href="files/sample-notice.png" download>도서관 안내문 샘플</a>
+<!-- PART 3 -->
+<section class="part" id="p3">
+  <div class="wrap">
+    <div class="part-head rv">
+      <div>
+        <div class="pno">03</div>
+        <h2>HRD를 다시 설계한다<br>네 가지 처방</h2>
+        <p>100만 명 훈련의 목표를 다시 정하는 실행 전략입니다.</p>
+      </div>
+      <figure><img src="img/part3.jpg" alt="세대가 다른 사람들이 AI 로봇과 함께 다리를 놓는 일러스트" loading="lazy" width="1000" height="1250"></figure>
     </div>
-    <div class="say" onclick="cp(this)"><div class="lbl">사진 올리고 이렇게</div><div class="txt">이 사진에 뭐라고 써 있는지 큰 글씨로 정리해줘. 내가 꼭 알아야 할 것 세 가지만 먼저 말해줘.</div><div class="hint">누르면 복사</div></div>
-  </div>
 
-  <div class="card">
-    <div class="head"><div class="step">📊</div><div><h3>표 분석해보기</h3></div></div>
-    <div class="tip">파일을 올리고 "분석해줘"라고 하면 AI가 표를 직접 읽습니다. 추석 장보기 표에는 <b>이상한 항목을 하나 숨겨뒀습니다.</b></div>
-    <div class="links">
-      <a href="files/chuseok-shopping-budget.csv" download>추석 장보기 표</a>
-      <a href="files/community-dues.csv" download>모임 회비 명단</a>
-      <a href="files/family-trip-plan.csv" download>가족 여행 일정</a>
-      <a href="files/library-reading-survey.csv" download>독서 설문 100명</a>
+    <div class="block rv">
+      <span class="label">인재의 정의</span>
+      <h3>AI를 배우는 사람에서 AI를 부리는 사람으로</h3>
+      <div class="def">
+        <div class="r h"><span></span><span>AI를 배우는 사람</span><span>AI를 부리는 사람</span></div>
+        <div class="r"><span class="k">교육의 목표</span><span class="old">도구 사용법을 익힌다</span><span class="new">일을 정의하고 맡기고 검수한다</span></div>
+        <div class="r"><span class="k">성과의 단위</span><span class="old">교육 이수 시간</span><span class="new">맡겨 본 일, 검수해 낸 결과</span></div>
+        <div class="r"><span class="k">신입의 첫 과제</span><span class="old">자료 찾기, 초안 쓰기</span><span class="new">AI 결과를 비교하고 고치기</span></div>
+        <div class="r"><span class="k">숙련공의 역할</span><span class="old">은퇴하면 노하우도 함께 떠난다</span><span class="new">AI 검증자, 공정 지식 큐레이터</span></div>
+        <div class="r"><span class="k">관리자의 역할</span><span class="old">교육을 보낸다</span><span class="new">먼저 써 보고 실험할 판을 깐다</span></div>
+      </div>
     </div>
-    <div class="say" onclick="cp(this)"><div class="lbl">추석 장보기 표: 이렇게</div><div class="txt">이 표를 읽고 총액이 얼마인지, 어디에 돈이 가장 많이 들었는지 알려줘. 그리고 입력이 잘못된 것 같은 항목이 있으면 짚어줘.</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">모임 회비: 이렇게</div><div class="txt">이 명단에서 아직 회비를 안 낸 사람이 누구인지, 모인 금액이 얼마인지 정리해줘. 그리고 미납자에게 보낼 정중한 안내 문자를 짧게 써줘.</div><div class="hint">누르면 복사</div></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">독서 설문: 심화용</div><div class="txt">이 설문 결과를 분석해서 연령대별로 어떤 분야를 좋아하는지, 어떤 프로그램을 원하는지 표로 정리해줘. 그리고 도서관이 다음에 어떤 프로그램을 열면 좋을지 근거와 함께 세 가지 제안해줘.</div><div class="hint">누르면 복사</div></div>
-  </div>
 
-  <div class="card">
-    <div class="head"><div class="step">🛡️</div><div><h3>판별 연습하기</h3></div></div>
-    <div class="tip">아래는 <b>강의 실습용으로 만든 가상 샘플</b>입니다. 실제 기관·기업과 무관하며 링크는 존재하지 않습니다.</div>
-    <div class="links"><a href="files/sample-scam-sms.png" download>사기 의심 문자 샘플</a></div>
-    <div class="say" onclick="cp(this)"><div class="lbl">사진 올리고 이렇게</div><div class="txt">이 문자들이 사기일 가능성이 있는지 하나씩 살펴봐줘. 어떤 점이 의심스러운지 근거를 말하고, 내가 직접 확인할 수 있는 공식 기관과 방법을 알려줘.</div><div class="hint">누르면 복사</div></div>
+    <div class="block rv">
+      <div class="rx">
+        <div class="card"><span class="n">처방 1</span><b>직무를 다시 쪼갭니다</b><p>직무 이름은 그대로 두고 능력단위를 세 칸으로 나눕니다. NCS와 훈련 기준의 능력단위마다 '위임과 검수' 요소가 들어가야 합니다.</p>
+          <div class="cols3"><span><i>맡길 일</i>데이터 집계, 보고서 초안</span><span><i>검수할 일</i>원인 분석 결과, 대응 문안</span><span><i>남길 일</i>현장 판단, 승인과 책임</span></div></div>
+        <div class="card"><span class="n">처방 2</span><b>첫 계단을 다시 놓습니다</b><p>AI가 신입의 첫 과제를 가져갔다면 다른 첫 과제가 필요합니다. AI가 해 온 결과를 비교하고 고치고 근거를 대는 '검수 견습'을 현장 실습과 일학습병행에 넣습니다.</p></div>
+        <div class="card"><span class="n">처방 3</span><b>숙련공을 교사로 만듭니다</b><p>은퇴 전 5년이 골든타임입니다. 판단 기준과 현장 기록을 남기고, 구조화하고, AI에 가르치고, 신규 기술자 교육에 다시 씁니다.</p></div>
+        <div class="card"><span class="n">처방 4</span><b>관리자부터 바꿉니다</b><p>관리자가 AI를 먼저 쓰면 직원의 비판적 사고는 +22%p, 에이전트에 대한 신뢰는 +30%p 오릅니다. 앞서가는 직원의 85%는 AI를 공개적으로 쓰는 관리자 밑에 있었습니다.</p></div>
+      </div>
+      <p class="src">처방 4 출처: Microsoft Work Trend Index 2026 (2026.5)</p>
+    </div>
   </div>
 </section>
 
-</main>
-
-<div class="bio">
-  <h3>김덕진</h3>
-  <div class="role">IT커뮤니케이션연구소(ITCL) 소장 · 세종사이버대학교 AI교육센터장 · 서울시립대 겸임교수</div>
-  <p><b>기술과 사람 사이를 통역하는 일</b>을 합니다.</p>
-
-  <div class="ask">저서</div>
-  <div class="books">
-    <b>『AI 시대, 부모로 살아가기』</b> <span style="color:var(--accent)">신간</span> · 한빛미디어, 2026.9<br>
-    <span style="color:var(--muted)">AI공학자 아빠 김덕진 × 정서지능 교육자 엄마 임한나. 한 아이를 키우며 부딪히고 합의해온 우리 집 AI 원칙. (구매링크)</span>
+<!-- WORKBOOK -->
+<section class="part" id="work" style="padding-top:clamp(24px,4vw,48px)">
+  <div class="wrap">
+    <div class="work rv">
+      <span class="label">직접 해 보기 · 5분</span>
+      <h3>내 직무 3칸 나누기</h3>
+      <p>처방 1을 지금 해 봅니다. 내 직무(또는 우리 산업의 대표 직무)의 일을 세 칸으로 나눠 적어 보세요. 입력한 내용은 이 기기에만 저장됩니다.</p>
+      <label class="f" for="job">직무 이름</label>
+      <input id="job" type="text" placeholder="예: 제조 품질보증 엔지니어" autocomplete="off">
+      <div class="three">
+        <div><label class="f" for="c1">맡길 일<span>AI에게 통째로 맡겨도 되는 일</span></label><textarea id="c1" placeholder="한 줄에 하나씩"></textarea></div>
+        <div><label class="f" for="c2">검수할 일<span>AI가 해 오면 사람이 확인할 일</span></label><textarea id="c2" placeholder="한 줄에 하나씩"></textarea></div>
+        <div><label class="f" for="c3">남길 일<span>사람이 판단하고 책임질 일</span></label><textarea id="c3" placeholder="한 줄에 하나씩"></textarea></div>
+      </div>
+      <div class="btns">
+        <button class="btn p" type="button" id="copy">결과 복사하기</button>
+        <button class="btn g" type="button" id="sample">예시 채우기</button>
+        <button class="btn g" type="button" id="reset">지우기</button>
+      </div>
+    </div>
   </div>
-  <div class="links">
-    <a href="https://product.kyobobook.co.kr/detail/S000221031456" target="_blank">AI 시대, 부모로 살아가기</a>
-    <a href="https://product.kyobobook.co.kr/detail/S000219669213" target="_blank">피지컬 AI 2026</a>
-    <a href="https://product.kyobobook.co.kr/detail/S000218055137" target="_blank">AI 2026 활용백과</a>
-    <a href="https://product.kyobobook.co.kr/detail/S000216958553" target="_blank">AI 에이전트 활용백과</a>
+</section>
+
+<section class="part" id="count" style="padding-top:clamp(56px,9vw,96px)">
+  <div class="wrap">
+    <div class="block rv">
+      <span class="label">김덕진 제안</span>
+      <h3>100만 명을 세는 법을 바꾸자: 'AI 마일리지'</h3>
+      <p>몇 명이 이수했는지는 시작일 뿐입니다. 마일리지는 타 본 사람에게만 쌓이듯, AI도 먼저 자주 맡겨 본 사람에게만 경험이 쌓입니다.</p>
+      <div class="mile">
+        <div class="card"><div class="old">교육 이수 인원</div><div class="new">실제 업무에서 AI에게 맡겨 본 일의 수</div></div>
+        <div class="card"><div class="old">교육 시간</div><div class="new">검수해서 통과시킨 결과물</div></div>
+        <div class="card"><div class="old">수료율</div><div class="new">다시 설계된 직무와 능력단위의 수</div></div>
+      </div>
+    </div>
+
+    <div class="block rv" style="margin-bottom:0">
+      <span class="label">패널 토론에 넘긴 질문</span>
+      <h3>우리 산업은 어떻게 답할까요</h3>
+      <div class="qs">
+        <div class="q"><span class="qn">Q1</span><div><b>첫 계단</b><p>우리 산업에서 AI가 가장 먼저 가져간 신입의 일은 무엇이고, 그 자리에 어떤 첫 과제를 놓을 것인가</p></div></div>
+        <div class="q"><span class="qn">Q2</span><div><b>숙련</b><p>은퇴 전 5년, 누구의 암묵지부터 남길 것인가</p></div></div>
+        <div class="q"><span class="qn">Q3</span><div><b>기준</b><p>NCS와 훈련 기준에 '위임과 검수'를 어떻게 넣을 것인가</p></div></div>
+      </div>
+    </div>
   </div>
+</section>
 
-  <div class="ask">강의 · 자문 · 방송 문의</div>
-  <div class="links">
-    <a href="https://litt.ly/kimdukjin" target="_blank">강의 문의</a>
-    <a href="mailto:info@itcl.kr">info@itcl.kr</a>
-    <a href="https://open.kakao.com/o/gQiVg8Bh" target="_blank">오픈채팅</a>
+<section class="balmun" aria-label="발문">
+  <div class="wrap">
+    <span class="label">발문</span>
+    <h2 class="rv">AI가 첫 계단을 가져간 뒤,<br>우리 산업의 신입은<br>무엇을 밟고 올라옵니까?</h2>
+    <p class="rv">답은 지금 하지 않으셔도 됩니다. 그 계단을 놓는 사람이 바로 HRD입니다.</p>
   </div>
-</div>
+</section>
 
-<div class="foot">
-  프롬프트는 자유롭게 바꿔 쓰세요. 실습 샘플 자료는 모두 가상으로 만든 것입니다.<br>
-  AI 답은 출발점입니다. 중요한 결정은 원본과 전문가 확인을 거치세요.
-</div>
+<section class="oyster" id="oyster">
+  <div class="wrap grid">
+    <figure class="rv"><img src="img/oyster.jpg" alt="물줄기로 굴 껍데기를 여는 기계와 옆 공장에서 굴김치를 만드는 사람들 일러스트" loading="lazy" width="1000" height="1250"></figure>
+    <div class="rv">
+      <span class="label">굴 까기가 알려준 것</span>
+      <h2>"절대 로봇이 대체할 수 없다"에서<br>"로봇이 대체했습니다"로</h2>
+      <ol class="tl">
+        <li>로봇은 사람처럼 하나씩 까지 않았습니다. 압축과 물로 껍데기를 한 번에 벌리도록 공정 자체를 다시 설계했습니다.</li>
+        <li>그 발상은 사람이 냈습니다.</li>
+        <li>굴을 까던 어머님들은 사라지지 않았습니다. 옆 굴김치 공장에서 일하고 계셨습니다.</li>
+      </ol>
+      <p class="close-line">사람을 옆 공장으로 건너가게 하는 다리.<br><b>그 다리를 놓는 일이 HRD입니다.</b></p>
+      <p class="src">EBS 극한직업 굴 까기 편 이야기 · 김덕진 강의 마무리 사례</p>
+    </div>
+  </div>
+</section>
 
-<div class="toast" id="toast">복사됐어요: 붙여넣거나 말로 하세요</div>
-<div class="fs"><button onclick="fz(-1)">A−</button><button onclick="fz(1)">A+</button></div>
+<section class="sources">
+  <div class="wrap">
+    <details>
+      <summary>출처 전체 보기</summary>
+      <ul class="srclist">
+        <li>Microsoft, 2026 Work Trend Index: Agents, human agency, and the opportunity for every organization (2026.5.5)<br><a href="https://www.microsoft.com/en-us/worklab/work-trend-index/agents-human-agency-and-the-opportunity-for-every-organization" target="_blank" rel="noopener">microsoft.com/worklab/work-trend-index</a></li>
+        <li>Microsoft, How Frontier Firms are rebuilding the operating model for the age of AI (2026.5.5)<br><a href="https://blogs.microsoft.com/blog/2026/05/05/how-frontier-firms-are-rebuilding-the-operating-model-for-the-age-of-ai/" target="_blank" rel="noopener">blogs.microsoft.com</a></li>
+        <li>Microsoft, 2025 Work Trend Index: The Year the Frontier Firm Is Born (2025.4.23)<br><a href="https://blogs.microsoft.com/blog/2025/04/23/the-2025-annual-work-trend-index-the-frontier-firm-is-born/" target="_blank" rel="noopener">blogs.microsoft.com</a></li>
+        <li>Brynjolfsson·Chandar·Chen, Canaries in the Coal Mine? Six Facts about the Recent Employment Effects of AI, Stanford (2025.8)<br><a href="https://siepr.stanford.edu/publications/working-paper/canaries-coal-mine-six-facts-about-recent-employment-effects-artificial" target="_blank" rel="noopener">siepr.stanford.edu</a></li>
+        <li>전국인력신문, AI 전환·100만 직업훈련, 3대 방향·7대 과제로 노동시장 재편 (2026.7)<br><a href="https://www.kjob.news/news/503608" target="_blank" rel="noopener">kjob.news/news/503608</a></li>
+        <li>전국인력신문, AI 직업훈련 100만의 함의 (2026.7.11)<br><a href="https://www.kjob.news/news/503607" target="_blank" rel="noopener">kjob.news/news/503607</a></li>
+        <li>KNN, 정부 2030년까지 100만 명 AI 직업훈련 (AI+ 역량 UP 프로젝트, 2025.12)<br><a href="https://news.knn.co.kr/news/article_sns/508" target="_blank" rel="noopener">news.knn.co.kr</a></li>
+        <li>헤럴드경제, 산업부 제조 암묵지 기반 AI모델 개발 본격 추진 (2026.4.27)<br><a href="https://www.heraldk.com/article/2026042714151555019" target="_blank" rel="noopener">heraldk.com</a></li>
+        <li>MTN, 산업부 2027 예산안 (2026.9.1)<br><a href="https://news.mtn.co.kr/news-detail/2026090109495832941" target="_blank" rel="noopener">news.mtn.co.kr</a></li>
+        <li>People Matters, Amazon plans to deploy robots to automate 600,000 roles (NYT 보도 요약, 2025.10)<br><a href="https://www.peoplematters.in/news/business/amazon-plans-to-deploy-robots-to-automate-600000-human-roles-report-46922" target="_blank" rel="noopener">peoplematters.in</a></li>
+        <li>Fortune, Walmart CEO Doug McMillon can't think of a single job that won't be changed by AI (2025.9.30)<br><a href="https://fortune.com/2025/09/30/billion-dollar-retail-giant-walmart-ceo-doug-mcmillon-cant-think-of-a-single-job-that-wont-be-changed-by-ai-artifical-intelligence-how-employees-can-prepare" target="_blank" rel="noopener">fortune.com</a></li>
+        <li>Retail TouchPoints, Walmart to Offer Associates Free OpenAI Training in 2026<br><a href="https://www.retailtouchpoints.com/features/news-briefs/walmart-to-offer-associates-free-openai-training-in-2026" target="_blank" rel="noopener">retailtouchpoints.com</a></li>
+        <li>IT Brew, How Walmart is securing a new cohort of AI builders (2026.6.12)<br><a href="https://www.itbrew.com/stories/how-walmart-is-securing-a-new-cohort-of-ai-builders" target="_blank" rel="noopener">itbrew.com</a></li>
+      </ul>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b>ITCL</b> · IT커뮤니케이션연구소<br>
+    김덕진 소장 · 2026 AI 융합산업 인적자원개발(HRD) 포럼 기조연설 복기 페이지<br>
+    이미지는 AI로 생성한 일러스트입니다.
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
-  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));
-  b.classList.add('on'); document.getElementById('p-'+b.dataset.t).classList.add('on');
-  window.scrollTo({top:0,behavior:'smooth'});
-}));
-function cp(el){
-  const t=el.querySelector('.txt');
-  navigator.clipboard.writeText((t?t.innerText:el.innerText).trim()).then(toast).catch(toast);
-}
-let tt;function toast(){const t=document.getElementById('toast');t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1600)}
-const done=new Set();
-function dn(btn){const id=btn.closest('.card').dataset.id;btn.classList.toggle('on');btn.classList.contains('on')?done.add(id):done.delete(id);btn.textContent=btn.classList.contains('on')?'완료':'완료 표시';
-  document.getElementById('doneN').textContent=done.size;document.getElementById('barFill').style.width=(done.size/6*100)+'%';}
-function tg(b){b.parentElement.classList.toggle('open')}
-let zz=1;function fz(d){zz=Math.max(.9,Math.min(1.35,zz+d*.1));document.body.style.zoom=zz}
+(function(){
+  // 진행 막대
+  var bar=document.getElementById('progress');
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  // 등장 효과 + 숫자 + 막대
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function countUp(el){
+    var to=+el.getAttribute('data-count'); if(reduce){return;}
+    var unit=el.querySelector('.u'); var t0=null; var dur=1100;
+    function f(t){if(!t0)t0=t;var p=Math.min(1,(t-t0)/dur);var v=Math.round(to*(1-Math.pow(1-p,3)));
+      el.firstChild.nodeValue=String(v); if(p<1)requestAnimationFrame(f);}
+    requestAnimationFrame(f);
+  }
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(!e.isIntersecting)return; var el=e.target; el.classList.add('in');
+      el.querySelectorAll('[data-count]').forEach(countUp);
+      el.querySelectorAll('[data-bars] .fill').forEach(function(f){f.style.width=f.getAttribute('data-w')+'%';});
+      io.unobserve(el);
+    });},{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+    // 목차 강조
+    var links=[].slice.call(document.querySelectorAll('.nav a'));
+    var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+    var so=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting&&map[e.target.id]){links.forEach(function(a){a.classList.remove('on');});map[e.target.id].classList.add('on');
+        map[e.target.id].scrollIntoView({block:'nearest',inline:'center'});}
+    });},{rootMargin:'-45% 0px -50% 0px'});
+    Object.keys(map).forEach(function(id){var s=document.getElementById(id);if(s)so.observe(s);});
+  }else{
+    document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in');});
+    document.querySelectorAll('[data-bars] .fill').forEach(function(f){f.style.width=f.getAttribute('data-w')+'%';});
+  }
+
+  // 워크북
+  var ids=['job','c1','c2','c3']; var KEY='itcl-hrd-forum-2026-work';
+  var els=ids.map(function(i){return document.getElementById(i);});
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(els.map(function(e){return e.value;})));}catch(e){}}
+  try{var saved=JSON.parse(localStorage.getItem(KEY)||'null'); if(saved){els.forEach(function(e,i){e.value=saved[i]||'';});}}catch(e){}
+  els.forEach(function(e){e.addEventListener('input',save);});
+  var toast=document.getElementById('toast'); var tt;
+  function say(m){toast.textContent=m;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('show');},1800);}
+  document.getElementById('sample').addEventListener('click',function(){
+    els[0].value='제조 품질보증 엔지니어';
+    els[1].value='불량 데이터 집계\n보고서 초안\n규격 문서 찾기\n협력사 메일 초안';
+    els[2].value='불량 원인 분석 결과\n고객 대응 문안\n개선 대책의 근거';
+    els[3].value='라인 현장 판단\n출하 승인\n협력사와의 협상과 책임';
+    save(); say('예시를 채웠습니다');
+  });
+  document.getElementById('reset').addEventListener('click',function(){els.forEach(function(e){e.value='';});save();say('지웠습니다');});
+  function list(v){return v.split('\n').map(function(s){return s.trim();}).filter(Boolean).map(function(s){return '- '+s;}).join('\n')||'- (비어 있음)';}
+  document.getElementById('copy').addEventListener('click',function(){
+    var txt='[내 직무 3칸 나누기] '+(els[0].value.trim()||'직무 미입력')+'\n\n맡길 일\n'+list(els[1].value)+'\n\n검수할 일\n'+list(els[2].value)+'\n\n남길 일\n'+list(els[3].value)+'\n\n출처: 김덕진 기조연설 「에이전트 보스의 시대」 2026 AI 융합산업 HRD 포럼';
+    function fallback(){var ta=document.createElement('textarea');ta.value=txt;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');say('복사했습니다');}catch(e){say('복사에 실패했습니다');} document.body.removeChild(ta);}
+    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(txt).then(function(){say('복사했습니다');},fallback);}else{fallback();}
+  });
+})();
 </script>
 </body>
 </html>
